@@ -1,0 +1,44 @@
+%global rolename vm-infra
+%global roleprefix ovirt.
+%global roleprefix_legacy ovirt-
+%global ansible_roles_dir ansible/roles
+
+Name: @PACKAGE_NAME@
+Summary: Ansible role to create virtual machine infrastructure
+Version: @RPM_VERSION@
+Release: @RPM_RELEASE@%{?release_suffix}%{?dist}
+Source0: http://resources.ovirt.org/pub/src/@PACKAGE_NAME@/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
+License: ASL 2.0
+Group:          Virtualization/Management
+BuildArch:      noarch
+Url:            http://www.ovirt.org
+
+Requires: ansible >= 2.4
+
+%description
+This Ansible role provide funtionality to create virtual machine infrastructure.
+
+%prep
+%setup -c -q
+
+%build
+
+%install
+export PKG_DATA_DIR_ORIG=%{_datadir}/%{ansible_roles_dir}/%{roleprefix}%{rolename}
+export PKG_DATA_DIR=%{buildroot}$PKG_DATA_DIR_ORIG
+export PKG_DOC_DIR=%{buildroot}%{_pkgdocdir}
+export ROLENAME_LEGACY=%{buildroot}%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy}%{rolename}
+sh build.sh install
+
+%files
+%{_datadir}/%{ansible_roles_dir}/%{roleprefix}%{rolename}
+%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy}%{rolename}
+
+%doc README.md
+%doc examples/
+
+%license LICENSE
+
+%changelog
+* Thu Nov 16 2017 Ondra Machacek <omachace@redhat.com> - 1.0.0-0
+- Initial release

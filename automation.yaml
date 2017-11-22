@@ -1,0 +1,6 @@
+distros:
+  - fc25
+  - fc26
+  - el7
+release_branches:
+  master: ovirt-master
