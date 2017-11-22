@@ -15,6 +15,7 @@ Role Variables
 | Name                           | Default value |                                              |
 |--------------------------------|---------------|----------------------------------------------| 
 | vms                            | UNDEF         | List of dictionaries with virtual machine specifications.   |
+| affinity_groups                | UNDEF         | List of dictionaries with affinity groups specifications.   |
 | wait_for_ip                    | true          | If true, the playbook should wait for the virtual machine IP reported by the guest agent.  |
 | debug_vm_create                | false         | If true, logs the tasks of the virtual machine being created. The log can contain passwords. |
 | vm_infra_create_single_timeout | 180           | Time in seconds to wait for VM to be created and started (if state is running). |
@@ -81,6 +82,22 @@ The item in `nics` list of `profile` dictionary can contain following attributes
 | network            | UNDEF          | Logical network which the VM network interface should use. If network is not specified, then Empty network is used. |
 | profile            | UNDEF          | Virtual network interface profile to be attached to VM network interface. |
 
+The `affinity_groups` list can contain following attributes:
+
+| Name               | Default value       |                                              |
+|--------------------|---------------------|----------------------------------------------|
+| cluster            | UNDEF (Required)    |  Name of the cluster of the affinity group.  |
+| description        | UNDEF               |  Human readable description.                 |
+| host_enforcing     | false               |  <ul><li>true - VM cannot start on host if it does not satisfy the `host_rule`.</li><li>false - VM will follow `host_rule` with soft enforcement.</li></ul>|
+| host_rule          | UNDEF               |  <ul><li>positive - VM's in this group must run on this host.</li> <li>negative - VM's in this group may not run on this host</li></ul> |
+| hosts              | UNDEF               |  List of host names assigned to this group.  |
+| name               | UNDEF (Required)    |  Name of affinity group.                     |
+| state              | UNDEF               |  Whether group should be present or absent.  |
+| vm_enforcing       | false               |  <ul><li>true - VM cannot start if it cannot satisfy the `vm_rule`.</li><li>false - VM will follow `vm_rule` with soft enforcement.</li></ul> |
+| vm_rule            | UNDEF               |  <ul><li>positive - all vms in this group try to run on the same host.</li><li>negative - all vms in this group try to run on separate hosts.</li><li>disabled - this affinity group does not take effect.</li></ul> |
+| vms                | UNDEF               |  List of VM's to be assigned to this affinity group. |
+| wait               | true                |  If true, the module will wait for the desired state. |
+
 The item in `cloud_init` dictionary can contain all parameters documented
 in upstream Ansible documentation of [ovirt_vms](http://docs.ansible.com/ansible/latest/ovirt_vms_module.html) module.
 
@@ -90,7 +107,7 @@ in upstream Ansible documentation of [ovirt_vms](http://docs.ansible.com/ansible
 Dependencies
 ------------
 
- * [ovirt-affinity-groups]
+None.
 
 Example Playbook
 ----------------
@@ -124,6 +141,15 @@ Example Playbook
       memory: 2GiB
       cores: 2
       storage_domain: my_storage_domain
+  
+   affinity_groups:
+      - name: db-ag
+        cluster: production 
+        vm_enforcing: true
+        vm_rule: negative
+        vms:
+          - postgresql-vm-0
+          - postgresql-vm-1
 
     vms:
       - name: apache-vm
@@ -143,5 +169,3 @@ License
 -------
 
 Apache License 2.0
-
-[ovirt-affinity-groups]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-affinity-groups/README.md

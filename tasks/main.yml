@@ -83,8 +83,7 @@
       query: "[?tag=='{{ item }}']"
 
   - name: Apply any Affinity Groups
-    include_role:
-      name: ovirt-affinity-groups
+    import_tasks: affinity_groups.yml
 
   - name: Wait for VMs IP
     ovirt_vms_facts:
