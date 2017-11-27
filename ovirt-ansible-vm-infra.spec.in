@@ -40,5 +40,5 @@ sh build.sh install
 %license LICENSE
 
 %changelog
-* Thu Nov 16 2017 Ondra Machacek <omachace@redhat.com> - 1.0.0-0
+* Mon Nov 27 2017 Ondra Machacek <omachace@redhat.com> - 1.1.0-1
 - Initial release
