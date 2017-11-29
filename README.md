@@ -1,7 +1,7 @@
 oVirt Virtual Machine Infrastructure
 ====================================
 
-The `ovirt-vm-infra` role manages the virtual machine infrastructure in oVirt.
+The `oVirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
 
 Requirements
 ------------
@@ -160,7 +160,7 @@ Example Playbook
         profile: "{{ db_vm }}"
 
   roles:
-    - ovirt-vm-infra
+    - oVirt.vm-infra
 ```
 
 [![asciicast](https://asciinema.org/a/111662.png)](https://asciinema.org/a/111662)
