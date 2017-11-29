@@ -1,5 +1,5 @@
 %global rolename vm-infra
-%global roleprefix ovirt.
+%global roleprefix oVirt.
 %global roleprefix_legacy ovirt-
 %global ansible_roles_dir ansible/roles
 
