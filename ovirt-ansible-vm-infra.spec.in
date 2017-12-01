@@ -18,6 +18,15 @@ Requires: ansible >= 2.4
 %description
 This Ansible role provide funtionality to create virtual machine infrastructure.
 
+%pretrans -p <lua>
+-- Remove the legacy directory before installing the symlink. This is known issue in RPM:
+-- https://fedoraproject.org/wiki/Packaging:Directory_Replacement
+path = "%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy}%{rolename}"
+st = posix.stat(path)
+if st and st.type == "directory" then
+  os.execute('rm -rf "'..path..'"')
+end
+
 %prep
 %setup -c -q
 
