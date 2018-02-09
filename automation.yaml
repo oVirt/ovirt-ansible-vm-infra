@@ -1,6 +1,5 @@
 distros:
-  - fc25
-  - fc26
+  - fc27
   - el7
 release_branches:
   master: ovirt-master
