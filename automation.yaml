@@ -3,3 +3,4 @@ distros:
   - el7
 release_branches:
   master: ovirt-master
+  master: ovirt-4.2
