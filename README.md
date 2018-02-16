@@ -34,6 +34,7 @@ The `vms` list can contain following attributes:
 | cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. |
 | cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See below for more detailed description. |
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
+| state              | present               | Should the Virtual Machine be stopped, present or running. Takes precedence before state value in profile. |
 
 The `profile` dictionary can contain following attributes:
 
@@ -49,7 +50,7 @@ The `profile` dictionary can contain following attributes:
 | nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
 | high_availability  | UNDEF                 | Whether or not the node should be set highly available. |
 | storage_domain     | UNDEF                 | Name of the storage domain where all virtual machine disks should be created. Considered only when template is provided.|
-| state              | running               | Should the Virtual Machine be stopped, present or running.|
+| state              | present               | Should the Virtual Machine be stopped, present or running.|
 
 Following attributes of `profile` dictionary are deprecated and will be removed in ovirt-ansible-roles version 1.1,
 please use `cloud_init` parameter instead. Those parameters has precedence before `cloud_init` parameter to not
@@ -132,6 +133,7 @@ Example Playbook
       template: rhel7
       memory: 4GiB
       cores: 2
+      state: running
 
     httpd_vm:
       cluster: production
@@ -141,6 +143,7 @@ Example Playbook
       memory: 2GiB
       cores: 2
       storage_domain: my_storage_domain
+      state: running
   
    affinity_groups:
       - name: db-ag
@@ -152,9 +155,13 @@ Example Playbook
           - postgresql-vm-1
 
     vms:
-      - name: apache-vm
+      - name: apache-vm-1
         tag: httpd
         profile: "{{ httpd_vm }}"
+      - name: apache-vm-2
+        tag: httpd
+        profile: "{{ httpd_vm }}"
+        state: stopped
       - name: postgresql-vm
         tag: db
         profile: "{{ db_vm }}"
