@@ -1,14 +1,9 @@
-- name: "Get info about VM {{current_vm.name }}"
-  ovirt_vms_facts:
-    auth: "{{ ovirt_auth }}"
-    pattern: "name={{ current_vm.name }}"
-
-- name: "Create VM {{current_vm.name }}"
-  # TODO: Change when Ansible 2.4 is released:
+- name: "Create VM {{ current_vm.name }}"
+  # TODO: Change when Ansible 2.5 is released:
   # ovirt_vms:
-  ovirt_vms_24:
+  ovirt_vms_25:
     auth: "{{ ovirt_auth }}"
-    state: "{{ (ovirt_vms | length > 0) | ternary('present', 'stopped') }}"
+    state: "present"
     name: "{{ current_vm.name }}"
     cluster: "{{ current_vm.profile.cluster | default(omit) }}"
     template: "{{ current_vm.profile.template | default(omit) }}"
