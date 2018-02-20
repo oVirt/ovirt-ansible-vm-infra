@@ -35,6 +35,7 @@ The `vms` list can contain following attributes:
 | cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See below for more detailed description. |
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
 | state              | present               | Should the Virtual Machine be stopped, present or running. Takes precedence before state value in profile. |
+| nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
 
 The `profile` dictionary can contain following attributes:
 

@@ -41,7 +41,7 @@
       - flags:
         skip_missing: true
   
-  - name: Manage NICs
+  - name: Manage profile NICs
     ovirt_nics:
       auth: "{{ ovirt_auth }}"
       vm: "{{ item.0.name }}"
@@ -53,6 +53,21 @@
     with_subelements:
       - "{{ vms }}"
       - "profile.nics"
+      - flags:
+        skip_missing: true
+
+  - name: Manage virtual machines NICs
+    ovirt_nics:
+      auth: "{{ ovirt_auth }}"
+      vm: "{{ item.0.name }}"
+      name: "{{ item.1.name | default(omit) }}"
+      interface: "{{ item.1.interface | default(omit) }}"
+      mac_address: "{{ item.1.mac_address | default(omit) }}"
+      profile: "{{ item.1.profile | default(omit) }}"
+      network: "{{ item.1.network | default(omit) }}"
+    with_subelements:
+      - "{{ vms }}"
+      - "nics"
       - flags:
         skip_missing: true
 
