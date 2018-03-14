@@ -20,7 +20,7 @@ Role Variables
 | debug_vm_create                | false         | If true, logs the tasks of the virtual machine being created. The log can contain passwords. |
 | vm_infra_create_single_timeout | 180           | Time in seconds to wait for VM to be created and started (if state is running). |
 | vm_infra_create_poll_interval  | 15            | Polling interval. Time in seconds to wait between check of state of VM.  |
-| vm_infra_create_all_timeout    | vm_infra_create_single_timeout * (vms | length) | Total time to wait for all VMs to be created/started. |
+| vm_infra_create_all_timeout    | vm_infra_create_single_timeout * (vms.length) | Total time to wait for all VMs to be created/started. |
 | vm_infra_wait_for_ip_retries   | 5             | Number of retries to check if VM is reporting it's IP address. |
 | vm_infra_wait_for_ip_delay     | 5             | Polling interval of IP address. Time in seconds to wait between check if VM reports IP address. |
 
