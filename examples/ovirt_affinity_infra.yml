@@ -1,0 +1,86 @@
+---
+- name: oVirt infra
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    # Contains encrypted `engine_password` varibale using ansible-vault
+    - passwords.yml
+    
+  vars:
+    engine_url: http://localhost:8080/ovirt-engine/api
+    engine_user: admin@internal
+    # engine_cafile: /etc/pki/ovirt-engine/ca.pem
+    
+    dist_vm:
+      cluster: Default
+
+    phys_host:
+      cluster: Default
+
+    vms:
+      - name: VM1
+        tag: dist_vm
+        profile: "{{ dist_vm }}"
+      - name: VM2
+        tag: dist_vm
+        profile: "{{ dist_vm }}"
+
+    hosts:
+      - name: HOST1
+        tag: phys_host
+        profile: "{{ phys_host }}"
+      - name: HOST2
+        tag: phys_host
+        profile: "{{ phys_host }}"
+      - name: HOST3
+        tag: phys_host
+        profile: "{{ phys_host }}"
+
+
+    affinity_groups:
+      - name: vm1-vm2
+        cluster: Default
+        vm_enforcing: true
+        vm_rule: negative
+        vms:
+          - VM1
+          - VM2
+      - name: vm1-Hosts
+        cluster: Default
+        vm_enforcing: true
+        vm_rule: positive
+        vms:
+          - VM1
+        hosts:
+          - HOST1
+          - HOST3
+      - name: vm2-Hosts
+        cluster: Default
+        vm_enforcing: true
+        vm_rule: positive
+        vms:
+          - VM2
+        hosts:
+          - HOST2
+          - HOST3
+      - name: vm1-Host
+        cluster: Default 
+        vm_enforcing: false
+        vm_rule: positive
+        vms:
+          - VM1
+        hosts:
+          - HOST1
+      - name: vm2-Host
+        cluster: Default 
+        vm_enforcing: false
+        vm_rule: positive
+        vms:
+          - VM2
+        hosts:
+          - HOST2
+
+  roles:
+    - oVirt.vm-infra
