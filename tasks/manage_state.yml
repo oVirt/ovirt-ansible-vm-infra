@@ -1,8 +1,6 @@
 # To keep legacy cloud init parameters we need this:
 - name: Manage state
-  # TODO: Change when Ansible 2.5 is released:
-  # ovirt_vms:
-  ovirt_vms_25:
+  ovirt_vms:
     auth: "{{ ovirt_auth }}"
     state: "{{ current_vm.state | default(current_vm.profile.state) | default('present') }}"
     name: "{{ current_vm.name }}"
@@ -24,9 +22,7 @@
   when: not (legacy_started_vm.skipped | default(false))
 
 - name: Manage state
-  # TODO: Change when Ansible 2.5 is released:
-  # ovirt_vms:
-  ovirt_vms_25:
+  ovirt_vms:
     auth: "{{ ovirt_auth }}"
     state: "{{ current_vm.state | default(current_vm.profile.state) | default('present') }}"
     name: "{{ current_vm.name }}"
