@@ -1,7 +1,5 @@
 - name: "Create VM {{ current_vm.name }}"
-  # TODO: Change when Ansible 2.5 is released:
-  # ovirt_vms:
-  ovirt_vms_25:
+  ovirt_vms:
     auth: "{{ ovirt_auth }}"
     state: "present"
     name: "{{ current_vm.name }}"

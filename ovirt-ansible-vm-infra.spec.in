@@ -13,7 +13,7 @@ Group:          Virtualization/Management
 BuildArch:      noarch
 Url:            http://www.ovirt.org
 
-Requires: ansible >= 2.4
+Requires: ansible >= 2.5
 
 %description
 This Ansible role provide funtionality to create virtual machine infrastructure.

@@ -6,8 +6,8 @@ The `oVirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
 Requirements
 ------------
 
- * Ansible version 2.3 or higher
- * Python SDK version 4 or higher
+ * Ansible version 2.5 or higher
+ * Python SDK version 4.2 or higher
 
 Role Variables
 --------------
