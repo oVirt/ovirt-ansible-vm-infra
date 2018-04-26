@@ -30,7 +30,7 @@ The `vms` list can contain following attributes:
 | Name               | Default value         |                                            |
 |--------------------|-----------------------|--------------------------------------------| 
 | name               | UNDEF                 | Name of the virtual machine to create.     |
-| tag                | UNDEF                 | Name of the tag to assign to the virtual machine.  |
+| tag                | UNDEF                 | Name of the tag to assign to the virtual machine. Only administrator users can use this attribute.  |
 | cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. |
 | cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See below for more detailed description. |
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
