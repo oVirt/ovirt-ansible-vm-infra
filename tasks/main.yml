@@ -91,9 +91,8 @@
       auth: "{{ ovirt_auth }}"
       name: "{{ item }}"
       vms: "{{ vms|json_query(query)|map(attribute='name') | list }}"
-    when: "item != '[Undefined]'" # If not specified tag for VM ignore.
     with_items:
-      - "{{ vms | map(attribute='tag') | list | unique }}"
+      - "{{ vms | selectattr('tag', 'defined') | map(attribute='tag') | list | unique }}"
     vars:
       query: "[?tag=='{{ item }}']"
 
