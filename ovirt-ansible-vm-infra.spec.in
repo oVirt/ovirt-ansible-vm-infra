@@ -49,6 +49,10 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Thu Apr 26 2018 Ondra Machacek <omachace@redhat.com> - 1.1.7-1
+- Non administrator accounts can't use tag attribute
+  rhbz#1570153, rhbz#1549082
+
 * Tue Apr 10 2018 Ondra Machacek <omachace@redhat.com> - 1.1.6-1
 - Require Ansible 2.5.
 
