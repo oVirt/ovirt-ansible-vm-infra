@@ -114,62 +114,7 @@ None.
 Example Playbook
 ----------------
 
-```yaml
----
-- name: oVirt infra
-  hosts: localhost
-  connection: local
-  gather_facts: false
-
-  vars:
-    engine_url: https://ovirt-engine.example.com/ovirt-engine/api
-    engine_user: admin@internal
-    engine_password: 123456
-    engine_cafile: /etc/pki/ovirt-engine/ca.pem
-
-    db_vm:
-      cluster: production
-      root_password: 123456
-      domain: example.com
-      template: rhel7
-      memory: 4GiB
-      cores: 2
-      state: running
-
-    httpd_vm:
-      cluster: production
-      root_password: 123456
-      domain: example.com
-      template: rhel7
-      memory: 2GiB
-      cores: 2
-      storage_domain: my_storage_domain
-      state: running
-  
-   affinity_groups:
-      - name: db-ag
-        cluster: production 
-        vm_enforcing: true
-        vm_rule: negative
-        vms:
-          - postgresql-vm-0
-          - postgresql-vm-1
-
-    vms:
-      - name: apache-vm-1
-        tag: httpd
-        profile: "{{ httpd_vm }}"
-      - name: apache-vm-2
-        tag: httpd
-        profile: "{{ httpd_vm }}"
-        state: stopped
-      - name: postgresql-vm
-        tag: db
-        profile: "{{ db_vm }}"
-
-  roles:
-    - oVirt.vm-infra
-```
+https://github.com/oVirt/ovirt-ansible-vm-infra/blob/master/examples/ovirt_vm_infra.yml#L1-L63
 
 [![asciicast](https://asciinema.org/a/111662.png)](https://asciinema.org/a/111662)
 
