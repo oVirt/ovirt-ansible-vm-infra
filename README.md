@@ -42,7 +42,9 @@ The `profile` dictionary can contain following attributes:
 | Name               | Default value         |                                              |
 |--------------------|-----------------------|----------------------------------------------|
 | cluster            | Default               | Name of the cluster where the virtual machine will be created. |
+| clone              | No                    | If yes then the disks of the created virtual machine will be cloned and independent of the template.  This parameter is used only when state is running or present and VM didn't exist before.  |
 | template           | Blank                 | Name of template that the virtual machine should be based on.   |
+| template_version   | Blank                 | Version number of the template to be used for VM. By default the latest available version of the template is used.   |
 | memory             | 2GiB                  | Amount of virtual machine memory.               |
 | memory_guaranteed  | UNDEF                 | Amount of minimal guaranteed memory of the Virtual Machine. Prefix uses IEC 60027-2 standard (for example 1GiB, 1024MiB). <i>memory_guaranteed</i> parameter can't be lower than <i>memory</i> parameter. |
 | cores              | 1                     | Number of CPU cores used by the the virtual machine.          |
@@ -155,6 +157,10 @@ Example Playbook
           name: data
           storage_domain: mynfsstorage
           interface: virtio
+      nics:
+        - name: ovirtmgmt
+          network: ovirtmgmt
+          profile: ovirtmgmt
 
     vms:
       - name: postgresql-vm-0
