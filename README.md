@@ -31,8 +31,8 @@ The `vms` list can contain following attributes:
 |--------------------|-----------------------|--------------------------------------------| 
 | name               | UNDEF                 | Name of the virtual machine to create.     |
 | tag                | UNDEF                 | Name of the tag to assign to the virtual machine. Only administrator users can use this attribute.  |
-| cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. |
-| cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See below for more detailed description. |
+| cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. See [cloud_init] upstream parameter for more detailed description. |
+| cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See [cloud_init_nics] upstream parameter for more detailed description. |
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
 | state              | present               | Should the Virtual Machine be stopped, present or running. Takes precedence before state value in profile. |
 | nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
@@ -54,16 +54,9 @@ The `profile` dictionary can contain following attributes:
 | high_availability  | UNDEF                 | Whether or not the node should be set highly available. |
 | storage_domain     | UNDEF                 | Name of the storage domain where all virtual machine disks should be created. Considered only when template is provided.|
 | state              | present               | Should the Virtual Machine be stopped, present or running.|
-
-Following attributes of `profile` dictionary are deprecated and will be removed in ovirt-ansible-roles version 1.1,
-please use `cloud_init` parameter instead. Those parameters has precedence before `cloud_init` parameter to not
-break backward compatibility, so please remove them when using `cloud_init`.
-
-| Name               | Default value         |                                               |
-|--------------------|-----------------------|-----------------------------------------------|
-| ssh_key            | UNDEF                 | SSH key to be deployed to the virtual machine.|
-| domain             | UNDEF                 | The domain of the virtual machine.            |
-| root_password      | UNDEF                 | The root password of the virtual machine.     |
+| ssh_key            | UNDEF                 | SSH key to be deployed to the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>authorized_ssh_keys</i> in <i>cloud_init</i> dictionary. |
+| domain             | UNDEF                 | The domain of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>host_name</i> in <i>cloud_init</i> dictionary.|
+| root_password      | UNDEF                 | The root password of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>root_password</i> in <i>cloud_init</i> dictionary.|
 
 The item in `disks` list of `profile` dictionary can contain following attributes:
 
@@ -101,12 +94,6 @@ The `affinity_groups` list can contain following attributes:
 | vm_rule            | UNDEF               |  <ul><li>positive - all vms in this group try to run on the same host.</li><li>negative - all vms in this group try to run on separate hosts.</li><li>disabled - this affinity group does not take effect.</li></ul> |
 | vms                | UNDEF               |  List of VM's to be assigned to this affinity group. |
 | wait               | true                |  If true, the module will wait for the desired state. |
-
-The item in `cloud_init` dictionary can contain all parameters documented
-in upstream Ansible documentation of [ovirt_vms](http://docs.ansible.com/ansible/latest/ovirt_vms_module.html) module.
-
-The item in `cloud_init_nics` list can contain all parameters documented
-in upstream Ansible documentation of [ovirt_vms](http://docs.ansible.com/ansible/latest/ovirt_vms_module.html) module.
 
 Dependencies
 ------------
@@ -187,6 +174,8 @@ Example Playbook
 ```
 
 [![asciicast](https://asciinema.org/a/111662.png)](https://asciinema.org/a/111662)
+[cloud_init]: http://docs.ansible.com/ansible/latest/ovirt_vms_module.html#parameters
+[cloud_init_nics]: http://docs.ansible.com/ansible/latest/ovirt_vms_module.html#parameters
 
 License
 -------
