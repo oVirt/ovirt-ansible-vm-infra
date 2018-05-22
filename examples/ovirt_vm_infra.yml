@@ -9,55 +9,38 @@
     - passwords.yml
 
   vars:
-    engine_url: https://ovirt-engine.example.com/ovirt-engine/api
-    engine_user: admin@internal
-    engine_cafile: /etc/pki/ovirt-engine/ca.pem
+    #engine_url: https://ovirt-engine.example.com/ovirt-engine/api
+    #engine_user: admin@internal
+    #engine_cafile: /etc/pki/ovirt-engine/ca.pem
 
-    httpd_vm:
-      cluster: production
-      domain: example.com
-      template: rhel7
-      memory: 2GiB
-      cores: 2
-      ssh_key: ssh-rsa AAA...LGx user@fqdn
-      disks:
-        - size: 10GiB
-          name: data
-          storage_domain: mynfsstorage
-          interface: virtio
-
+    debug_vm_create: yes
     db_vm:
-      cluster: production
-      domain: example.com
-      template: rhel7
-      memory: 4GiB
+      state: running
+      cluster: mycluster
+      template: centos7
+      memory: 1GiB
+      memory_max: 2GiB
       cores: 1
-      ssh_key: ssh-rsa AAA...LGx user@fqdn
+      tag:
+        - db
+        - dbvm
       disks:
-        - size: 50GiB
+        - size: 1GiB
           name: data
-          storage_domain: mynfsstorage
+          storage_domain: data
           interface: virtio
 
     vms:
       - name: postgresql-vm-0
-        tag: postgresql_vm
+        memory: 2GiB
+        cloud_init:
+          host_name: ps.example.com
+          root_password: '123456'
+          authorized_ssh_keys: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCjjbwFT/R0WicrlDHcuQjr11jmvb/0uQ46gbRZFpdes/1+xANwSRTaZh9yvZj6TRuH0aAHoVptfATEoXZ62hOfQaA0OOtWF5VOSFBTL+tCfSIGUSVkLJXL/ZxpaZnQ9usha1cpaE57V4lONBq0noj7kB4ks6ZMsI0qzAuYNiii2dEPGPZEX1wsq1OliJdwF9xdbQKp5Sg7JsoHvAV+I/hWcJ6wKj4vckuyn9X7+qftOC5es+zsLLp5PgLGxayYRcrieE5aQhQMAXa72Eutn6f0X0QXn9EqyjL/4T97htP+t+2pkR5/Bn6Ho4sUK164Jquzphh/Lmqu9OLUFWMh2LGx ondra@ondra
         profile: "{{ db_vm }}"
-      - name: postgresql-vm-1
-        tag: postgresql_vm
-        profile: "{{ db_vm }}"
-      - name: apache-vm
-        tag: httpd_vm
-        profile: "{{ httpd_vm }}"
-
-    affinity_groups:
-      - name: db-ag
-        cluster: production
-        vm_enforcing: true
-        vm_rule: negative
-        vms:
-          - postgresql-vm-0
-          - postgresql-vm-1
+        tag:
+          - pgsql
+          - httpd
 
   roles:
     - oVirt.vm-infra
