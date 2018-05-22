@@ -25,33 +25,35 @@ Role Variables
 | vm_infra_wait_for_ip_delay     | 5             | Polling interval of IP address. Time in seconds to wait between check if VM reports IP address. |
 
 
-The `vms` list can contain following attributes:
+The `vms` and `profile` variables can contain following attributes, note that if you define same variable in both the value in `vms` has precendence:
 
 | Name               | Default value         |                                            |
 |--------------------|-----------------------|--------------------------------------------| 
 | name               | UNDEF                 | Name of the virtual machine to create.     |
 | tag                | UNDEF                 | Name of the tag to assign to the virtual machine. Only administrator users can use this attribute.  |
-| cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. See [cloud_init] upstream parameter for more detailed description. |
-| cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See [cloud_init_nics] upstream parameter for more detailed description. |
+| cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. See below <i>cloud_init</i> section for more detailed description. |
+| cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See below <i>cloud_init_nics</i> section for more detailed description. |
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
 | state              | present               | Should the Virtual Machine be stopped, present or running. Takes precedence before state value in profile. |
 | nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
-
-The `profile` dictionary can contain following attributes:
-
-| Name               | Default value         |                                              |
-|--------------------|-----------------------|----------------------------------------------|
 | cluster            | Default               | Name of the cluster where the virtual machine will be created. |
 | clone              | No                    | If yes then the disks of the created virtual machine will be cloned and independent of the template.  This parameter is used only when state is running or present and VM didn't exist before.  |
 | template           | Blank                 | Name of template that the virtual machine should be based on.   |
-| template_version   | Blank                 | Version number of the template to be used for VM. By default the latest available version of the template is used.   |
-| memory             | 2GiB                  | Amount of virtual machine memory.               |
+| template_version   | UNDEF                 | Version number of the template to be used for VM. By default the latest available version of the template is used.   |
+| memory             | UNDEF                 | Amount of virtual machine memory.               |
+| memory_max         | UNDEF                 | Upper bound of virtual machine memory up to which memory hot-plug can be performed. |
 | memory_guaranteed  | UNDEF                 | Amount of minimal guaranteed memory of the Virtual Machine. Prefix uses IEC 60027-2 standard (for example 1GiB, 1024MiB). <i>memory_guaranteed</i> parameter can't be lower than <i>memory</i> parameter. |
 | cores              | 1                     | Number of CPU cores used by the the virtual machine.          |
 | sockets            | UNDEF                 | Number of virtual CPUs sockets of the Virtual Machine.  |
+| cpu_shares         | UNDEF                 | Set a CPU shares for this Virtual Machine. |
+| cpu_threads        | UNDEF                 | Set a CPU threads for this Virtual Machine. |
 | disks              | UNDEF                 | List of dictionaries specifying the additional virtual machine disks. See below for more detailed description. |
 | nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
+| custom_properties  | UNDEF                 | Properties sent to VDSM to configure various hooks.<br/> Custom properties is a list of dictionary which can have following values: <br/><i>name</i> - Name of the custom property. For example: hugepages, vhost, sap_agent, etc.<br/><i>regexp</i> - Regular expression to set for custom property.<br/><i>value</i> - Value to set for custom property. |
 | high_availability  | UNDEF                 | Whether or not the node should be set highly available. |
+| high_availability_priority | UNDEF                 | Indicates the priority of the virtual machine inside the run and migration queues. Virtual machines with higher priorities will be started and migrated before virtual machines with lower priorities. The value is an integer between 0 and 100. The higher the value, the higher the priority. If no value is passed, default value is set by oVirt/RHV engine. |
+| description        | UNDEF                 | Description of the Virtual Machine. |
+| graphical_console  | UNDEF                 | Assign graphical console to the virtual machine.<br/>Graphical console is a dictionary which can have following values:<br/><i>headless_mode</i> - If true disable the graphics console for this virtual machine.<br/><i>protocol</i> - 'VNC', 'Spice' or both. |
 | storage_domain     | UNDEF                 | Name of the storage domain where all virtual machine disks should be created. Considered only when template is provided.|
 | state              | present               | Should the Virtual Machine be stopped, present or running.|
 | ssh_key            | UNDEF                 | SSH key to be deployed to the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>authorized_ssh_keys</i> in <i>cloud_init</i> dictionary. |
@@ -94,6 +96,38 @@ The `affinity_groups` list can contain following attributes:
 | vm_rule            | UNDEF               |  <ul><li>positive - all vms in this group try to run on the same host.</li><li>negative - all vms in this group try to run on separate hosts.</li><li>disabled - this affinity group does not take effect.</li></ul> |
 | vms                | UNDEF               |  List of VM's to be assigned to this affinity group. |
 | wait               | true                |  If true, the module will wait for the desired state. |
+
+The `cloud_init` dictionary can contain following attributes:
+
+| Name                | Description                                          |
+|---------------------|------------------------------------------------------|
+| host_name           | Hostname to be set to Virtual Machine when deployed. |
+| timezone            | Timezone to be set to Virtual Machine when deployed. |
+| user_name           | Username to be used to set password to Virtual Machine when deployed. |
+| root_password       | Password to be set for user specified by user_name parameter. By default it's set for root user. |
+| authorized_ssh_keys | Use this SSH keys to login to Virtual Machine. |
+| regenerate_ssh_keys | If True SSH keys will be regenerated on Virtual Machine. |
+| custom_script       | Cloud-init script which will be executed on Virtual Machine when deployed. This is appended to the end of the cloud-init script generated by any other options. |
+| dns_servers         | DNS servers to be configured on Virtual Machine. |
+| dns_search          | DNS search domains to be configured on Virtual Machine. |
+| nic_boot_protocol   | Set boot protocol of the network interface of Virtual Machine. Can be one of none, dhcp or static. |
+| nic_ip_address      | If boot protocol is static, set this IP address to network interface of Virtual Machine. |
+| nic_netmask         | If boot protocol is static, set this netmask to network interface of Virtual Machine. |
+| nic_gateway         | If boot protocol is static, set this gateway to network interface of Virtual Machine. |
+| nic_name            | Set name to network interface of Virtual Machine. |
+| nic_on_boot         | If True network interface will be set to start on boot. |
+
+The `cloud_init_nics` List of dictionaries representing network interafaces to be setup by cloud init. This option is used, when user needs to setup more network interfaces via cloud init.
+If one network interface is enough, user should use cloud_init nic_* parameters. cloud_init nic_* parameters are merged with cloud_init_nics parameters. Dictionary can contain following values.
+
+| Name                | Description                                          |
+|---------------------|------------------------------------------------------|
+| nic_boot_protocol   | Set boot protocol of the network interface of Virtual Machine. Can be one of none, dhcp or static. |
+| nic_ip_address      | If boot protocol is static, set this IP address to network interface of Virtual Machine. |
+| nic_netmask         | If boot protocol is static, set this netmask to network interface of Virtual Machine. |
+| nic_gateway         | If boot protocol is static, set this gateway to network interface of Virtual Machine. |
+| nic_name            | Set name to network interface of Virtual Machine. |
+| nic_on_boot         | If True network interface will be set to start on boot. |
 
 Dependencies
 ------------
@@ -174,8 +208,6 @@ Example Playbook
 ```
 
 [![asciicast](https://asciinema.org/a/111662.png)](https://asciinema.org/a/111662)
-[cloud_init]: http://docs.ansible.com/ansible/latest/ovirt_vms_module.html#parameters
-[cloud_init_nics]: http://docs.ansible.com/ansible/latest/ovirt_vms_module.html#parameters
 
 License
 -------

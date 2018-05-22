@@ -86,15 +86,25 @@
     retries: "{{ (vm_infra_create_all_timeout|int // vm_infra_create_poll_interval) + 1  }}"
     delay: "{{ vm_infra_create_poll_interval }}"
 
-  - name: Tag VMs
+  # to_json|from_json in vms is WA for: https://github.com/ansible/ansible/issues/27299
+  - name: Apply tags from VM profiles
     ovirt_tags:
       auth: "{{ ovirt_auth }}"
       name: "{{ item }}"
-      vms: "{{ vms|json_query(query)|map(attribute='name') | list }}"
-    with_items:
-      - "{{ vms | selectattr('tag', 'defined') | map(attribute='tag') | list | unique }}"
+      vms: "{{ vms|to_json|from_json|json_query(query)|map(attribute='name') | list }}"
+    with_items: "{{ vms | selectattr('tag', 'defined') | map(attribute='tag') | list | unique }}"
     vars:
-      query: "[?tag=='{{ item }}']"
+      query: "[?contains(tag, '{{ item }}')]"
+
+  - name: Apply tags from VMs
+    ovirt_tags:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ item }}"
+      vms: "{{ vms|to_json|from_json|json_query(query)|map(attribute='name') | list }}"
+    with_items: "{{ vms | selectattr('profile', 'defined') | map(attribute='profile') | selectattr('tag', 'defined') | map(attribute='tag') | list | unique }}"
+    vars:
+      query: "[?contains(profile.tag, '{{ item }}')]"
+      defined_vms: "{{ vms | selectattr('profile.tag', 'defined') | list | unique }}"
 
   - name: Apply any Affinity Groups
     import_tasks: affinity_groups.yml
