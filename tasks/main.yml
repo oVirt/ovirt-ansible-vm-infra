@@ -1,5 +1,13 @@
 ---
 - block:
+  - name: Check if VMs are correct
+    fail: msg=" '{{ item[1] }}' is not define correctly"
+    when: item[1] not in item[0]
+    with_nested:
+      - "{{ vms }}"
+      - - 'name'
+        - 'profile'
+
   - name: Login to oVirt
     ovirt_auth:
       url: "{{ engine_url | default(omit) }}"
