@@ -2,7 +2,7 @@
 - block:
   - name: Check if VMs are correct
     fail:
-      msg:"'vms' variable don't contain mandatory parameter '{{ item[1] }}' "
+      msg:"'vms' variable does not contain mandatory parameter '{{ item[1] }}' "
     when: item[1] not in item[0]
     with_nested:
       - "{{ vms }}"
