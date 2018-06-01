@@ -1,7 +1,6 @@
 ---
-- block:
-  - name: "Remove VM '{{ current_vm.name }}''"
-    ovirt_vms:
-      auth: "{{ ovirt_auth }}"
-      state: "absent"
-      name: "{{ current_vm.name }}"
+- name: "Remove VM '{{ current_vm.name }}'"
+  ovirt_vms:
+    auth: "{{ ovirt_auth }}"
+    state: "absent"
+    name: "{{ current_vm.name }}"

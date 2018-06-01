@@ -1,53 +1,43 @@
 ---
-- name: Login to oVirt
-  ovirt_auth:
-    url: "{{ engine_url | default(omit) }}"
-    username: "{{ engine_user | default(omit) }}"
-    password: "{{ engine_password | default(omit) }}"
-    ca_file: "{{ engine_cafile | default(omit) }}"
-    insecure: "{{ engine_insecure | default(true) }}"
-  when: ovirt_auth is undefined
-  register: loggedin
+- block:
+  - name: Login to oVirt
+    ovirt_auth:
+      url: "{{ engine_url | default(omit) }}"
+      username: "{{ engine_user | default(omit) }}"
+      password: "{{ engine_password | default(omit) }}"
+      ca_file: "{{ engine_cafile | default(omit) }}"
+      insecure: "{{ engine_insecure | default(true) }}"
+    when: ovirt_auth is undefined
+    register: loggedin
 
-- name: Split list of VMs
-  set_fact: 
-    create_vms: "{{ create_vms | default([]) + [item]}}"
-  with_items: "{{ vms }}"
-  when: 
-    - item.state is defined
-    - item.state == 'present'
+  - name: Check if VMs are correct
+    fail:
+      msg: "'vms' variable does not contain mandatory parameter '{{ item[1] }}'"
+    when: item[1] not in item[0]
+    with_nested:
+      - "{{ vms }}"
+      - ['name', 'profile']
 
-- name: Split list of VMs check profile
-  set_fact: 
-    create_vms: "{{ create_vms | default([]) + [item]}}"
-  with_items: "{{ vms }}"
-  when:
-    - item.profile.state is defined 
-    - item.profile.state == 'present'
+  - name: Split list of VMs
+    set_fact:
+      create_vms: "{{ create_vms | default([]) + [item]}}"
+    with_items: "{{ vms }}"
+    when: (item.state is defined and item.state != 'absent') or (item.profile.state is defined and item.profile.state != 'absent')
 
-- name: Delete VM 
-  include_tasks: vm_state_absent.yml
-  with_items: "{{ vms }}"
-  loop_control:
-    loop_var: current_vm
-  when: 
-    - current_vm.state is defined
-    - current_vm.state == 'absent' 
-    
-- name: Delete VM check profile
-  include_tasks: vm_state_absent.yml
-  with_items: "{{ vms }}"
-  loop_control:
-    loop_var: current_vm
-  when: 
-    - current_vm.profile.state is defined 
-    - current_vm.profile.state == 'absent' 
+  - name: Delete VM
+    include_tasks: vm_state_absent.yml
+    with_items: "{{ vms }}"
+    loop_control:
+      loop_var: current_vm
+    when: (current_vm.state is defined and current_vm.state == 'absent') or (current_vm.profile.state is defined and current_vm.profile.state == 'absent')
 
-- name: Override vms list
-  set_fact:
-    vms: "{{ create_vms }}"
-  when: create_vms is defined
+  - name: Include create VM
+    include_tasks: vm_state_present.yml
+    when: create_vms is defined
 
-- name: Include create VM
-  include_tasks: vm_state_present.yml
-  when: create_vms is defined
+  always:
+    - name: Logout from oVirt
+      ovirt_auth:
+        state: absent
+        ovirt_auth: "{{ ovirt_auth }}"
+      when: not loggedin.skipped | default(false)
