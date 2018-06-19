@@ -117,22 +117,26 @@
   - name: Apply any Affinity Groups
     import_tasks: affinity_groups.yml
 
-  - name: Wait for VMs IP
-    ovirt_vms_facts:
-      auth: "{{ ovirt_auth }}"
-      pattern: "name={{ item.name }}"
-      fetch_nested: true
-      nested_attributes: ips
-    with_items:
-      - "{{ vms }}"
-    until: "ovirt_vms | first | json_query(query) | length > 0"
-    retries: "{{ vm_infra_wait_for_ip_retries }}"
-    delay: "{{ vm_infra_wait_for_ip_delay }}"
-    vars:
-      query: "reported_devices[*].ips[*].address"
-    when:
-      - "wait_for_ip"
-      - "item.profile.state | default('present') != 'stopped'"
+  - block:
+    - name: Wait for VMs IP
+      ovirt_vms_facts:
+        auth: "{{ ovirt_auth }}"
+        pattern: "name={{ item.name }}"
+        fetch_nested: true
+        nested_attributes: ips
+      with_items:
+        - "{{ vms }}"
+      until: "ovirt_vms | first | json_query(query) | length > 0"
+      retries: "{{ vm_infra_wait_for_ip_retries }}"
+      delay: "{{ vm_infra_wait_for_ip_delay }}"
+      vars:
+        query: "reported_devices[*].ips[*].address"
+      when: "item.profile.state | default('present') != 'stopped'"
+
+    - name: Create inventory
+      include_tasks: create_inventory.yml
+
+    when: "wait_for_ip"
 
   always:
     - name: Logout from oVirt
