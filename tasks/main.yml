@@ -118,6 +118,9 @@
     import_tasks: affinity_groups.yml
 
   - block:
+    - set_fact:
+         ip_cond: "ovirt_vms | ovirtvmip{{ wait_for_ip_version }} | length > 0"
+
     - name: Wait for VMs IP
       ovirt_vms_facts:
         auth: "{{ ovirt_auth }}"
@@ -126,11 +129,9 @@
         nested_attributes: ips
       with_items:
         - "{{ vms }}"
-      until: "ovirt_vms | first | json_query(query) | length > 0"
+      until: "ip_cond"
       retries: "{{ vm_infra_wait_for_ip_retries }}"
       delay: "{{ vm_infra_wait_for_ip_delay }}"
-      vars:
-        query: "reported_devices[*].ips[*].address"
       when: "item.profile.state | default('present') != 'stopped'"
 
     - name: Create inventory
