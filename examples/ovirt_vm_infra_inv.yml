@@ -34,16 +34,16 @@
       ssh_key: ssh-rsa AAAAB...Gx ondra@ondra
 
     vms:
-      - name: httpd-vm-1 
+      - name: httpd-vm-1
         profile: httpd_vm
         tag: httpd
-      - name: db-vm-1 
+      - name: db-vm-1
         profile: db_vm
       - name: db-vm-2
         profile: db_vm
 
   roles:
-      - oVirt.vm-infra
+    - oVirt.vm-infra
 
 - name: Print info about httpd VM
   hosts: ovirt_tag_httpd
