@@ -126,11 +126,9 @@
         nested_attributes: ips
       with_items:
         - "{{ vms }}"
-      until: "ovirt_vms | first | json_query(query) | length > 0"
+      until: "ovirt_vms | ovirtvmipv4 | length > 0"
       retries: "{{ vm_infra_wait_for_ip_retries }}"
       delay: "{{ vm_infra_wait_for_ip_delay }}"
-      vars:
-        query: "reported_devices[*].ips[*].address"
       when: "item.profile.state | default('present') != 'stopped'"
 
     - name: Create inventory
