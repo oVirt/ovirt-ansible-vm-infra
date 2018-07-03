@@ -1,3 +1,4 @@
+---
 - name: Fetch created VMs
   ovirt_vms_facts:
     auth: "{{ ovirt_auth }}"

@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Ondra Machacek
   description: Role to manage virtual machine infrastructure in oVirt.

@@ -1,3 +1,4 @@
+---
 - name: "Create VM {{ current_vm.name }}"
   ovirt_vms:
     auth: "{{ ovirt_auth }}"
