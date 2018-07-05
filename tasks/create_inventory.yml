@@ -11,9 +11,9 @@
 - name: Create inventory of VMs IPv4
   no_log: false
   add_host:
-    hostname: "{{ item | ovirtvmipv4 }}"
+    name: "{{ item.name }}"
+    ansible_host: "{{ item | ovirtvmipv4 }}"
     groups: "{{ (['ovirt_tag_'] * item.tags | length) | zip(item.tags | map(attribute='name') | list) | map('join') | list + ['ovirt_vm'] }}"
-    vm_name: "{{ item.name }}"
     ansible_user: root
     ansible_password: "{{ vms_passwords | selectattr('name', 'equalto', item.name) | map(attribute='root_password') | first | default(omit) }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
@@ -26,9 +26,9 @@
 - name: Create inventory of VMs IPv6
   no_log: false
   add_host:
-    hostname: "{{ item | ovirtvmipv6 }}"
+    name: "{{ item.name }}"
+    ansible_host: "{{ item | ovirtvmipv6 }}"
     groups: "{{ (['ovirt_tag_'] * item.tags | length) | zip(item.tags | map(attribute='name') | list) | map('join') | list + ['ovirt_vm'] }}"
-    vm_name: "{{ item.name }}"
     ansible_user: root
     ansible_password: "{{ vms_passwords | selectattr('name', 'equalto', item.name) | map(attribute='root_password') | first | default(omit) }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
