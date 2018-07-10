@@ -58,6 +58,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | state              | present               | Should the Virtual Machine be stopped, present or running.|
 | ssh_key            | UNDEF                 | SSH key to be deployed to the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>authorized_ssh_keys</i> in <i>cloud_init</i> dictionary. |
 | domain             | UNDEF                 | The domain of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>host_name</i> in <i>cloud_init</i> dictionary.|
+| lease              | UNDEF                 | Name of the storage domain this virtual machine lease reside on. |
 | root_password      | UNDEF                 | The root password of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>root_password</i> in <i>cloud_init</i> dictionary.|
 
 The item in `disks` list of `profile` dictionary can contain following attributes:
