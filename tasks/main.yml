@@ -15,7 +15,7 @@
         password: "{{ engine_password | default(omit) }}"
         ca_file: "{{ engine_cafile | default(omit) }}"
         insecure: "{{ engine_insecure | default(true) }}"
-      when: ovirt_auth is undefined
+      when: ovirt_auth is undefined or not ovirt_auth
       register: loggedin
 
     - name: Create VMs
