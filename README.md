@@ -59,7 +59,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
 | state              | present               | Should the Virtual Machine be stopped, present or running. Takes precedence before state value in profile. |
 | nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
-| cluster            | Default               | Name of the cluster where the virtual machine will be created. |
+| cluster            | UNDEF                 | Name of the cluster where the virtual machine will be created. |
 | clone              | No                    | If yes then the disks of the created virtual machine will be cloned and independent of the template.  This parameter is used only when state is running or present and VM didn't exist before.  |
 | template           | Blank                 | Name of template that the virtual machine should be based on.   |
 | template_version   | UNDEF                 | Version number of the template to be used for VM. By default the latest available version of the template is used.   |
