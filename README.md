@@ -2,6 +2,29 @@ oVirt Virtual Machine Infrastructure
 ====================================
 
 The `oVirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
+This role also creates inventory of created virtual machines it defines if
+`wait_for_ip` is set to `true`. All defined virtual machine are part of `ovirt_vm`
+inventory group. Role also create `ovirt_tag_{tag_name}` groups if there are any
+tags assigned to the virtual machine and place all virtual machine with that tag
+to that inventory group.
+
+For example for following variable structure:
+
+```yaml
+vms:
+  - name: myvm1
+    tag: mytag1
+    profile: myprofile
+
+  - name: myvm2
+    tag: mytag2
+    profile: myprofile
+```
+
+The role will create inventory groups `ovirt_vm` where will be both virtual
+machines `myvm1` and `myvm2`. The role also create inventory groups `ovirt_tag_mytag1`
+with virtual machine `myvm1` and inventory group `ovirt_tag_mytag2` with virtual
+machine `myvm2`.
 
 Requirements
 ------------
@@ -16,7 +39,7 @@ Role Variables
 |--------------------------------|---------------|----------------------------------------------| 
 | vms                            | UNDEF         | List of dictionaries with virtual machine specifications.   |
 | affinity_groups                | UNDEF         | List of dictionaries with affinity groups specifications.   |
-| wait_for_ip                    | true          | If true, the playbook should wait for the virtual machine IP reported by the guest agent.  |
+| wait_for_ip                    | false         | If true, the playbook should wait for the virtual machine IP reported by the guest agent.  |
 | debug_vm_create                | false         | If true, logs the tasks of the virtual machine being created. The log can contain passwords. |
 | vm_infra_create_single_timeout | 180           | Time in seconds to wait for VM to be created and started (if state is running). |
 | vm_infra_create_poll_interval  | 15            | Polling interval. Time in seconds to wait between check of state of VM.  |
@@ -36,7 +59,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
 | state              | present               | Should the Virtual Machine be stopped, present or running. Takes precedence before state value in profile. |
 | nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
-| cluster            | Default               | Name of the cluster where the virtual machine will be created. |
+| cluster            | UNDEF                 | Name of the cluster where the virtual machine will be created. |
 | clone              | No                    | If yes then the disks of the created virtual machine will be cloned and independent of the template.  This parameter is used only when state is running or present and VM didn't exist before.  |
 | template           | Blank                 | Name of template that the virtual machine should be based on.   |
 | template_version   | UNDEF                 | Version number of the template to be used for VM. By default the latest available version of the template is used.   |
@@ -205,6 +228,54 @@ Example Playbook
 
   roles:
     - oVirt.vm-infra
+```
+
+The example below shows how to use inventory created by `oVirt.vm-infra` role in follow up play.
+
+```yaml
+---
+- name: Deploy apache VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    # Contains encrypted `engine_password` varibale using ansible-vault
+    - passwords.yml
+
+  vars:
+    wait_for_ip: true
+
+    httpd_vm:
+      cluster: production
+      state: running
+      domain: example.com
+      template: rhel7
+      memory: 2GiB
+      cores: 2
+      ssh_key: ssh-rsa AAA...LGx user@fqdn
+      disks:
+        - size: 10GiB
+          name: data
+          storage_domain: mynfsstorage
+          interface: virtio
+
+    vms:
+      - name: apache-vm
+        tag: apache
+        profile: "{{ httpd_vm }}"
+
+  roles:
+    - oVirt.vm-infra
+
+- name: Deploy apache on VM
+  hosts: ovirt_tag_apache
+
+  vars_files:
+    - apache_vars.yml
+
+  roles:
+    - geerlingguy.apache
 ```
 
 [![asciicast](https://asciinema.org/a/111662.png)](https://asciinema.org/a/111662)

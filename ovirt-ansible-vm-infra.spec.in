@@ -49,6 +49,11 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Wed May 30 2018 Ondra Machacek <omachace@redhat.com> - 1.1.8-1
+- Added clone and template_version to role.
+- Support legacy cloud init.
+- Improve vm-infra parameters support.
+
 * Thu Apr 26 2018 Ondra Machacek <omachace@redhat.com> - 1.1.7-1
 - Non administrator accounts can't use tag attribute
   rhbz#1570153, rhbz#1549082

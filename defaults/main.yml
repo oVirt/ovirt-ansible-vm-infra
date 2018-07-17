@@ -10,3 +10,4 @@ vm_infra_create_all_timeout: "{{ vm_infra_create_single_timeout * (vms | length)
 # Wait for IPs timeouts:
 vm_infra_wait_for_ip_retries: 5
 vm_infra_wait_for_ip_delay: 5
+vms_passwords: []
