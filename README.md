@@ -32,6 +32,11 @@ Requirements
  * Ansible version 2.5 or higher
  * Python SDK version 4.2 or higher
 
+Limitations
+-----------
+
+ * Does not support Ansible Check Mode (Dry Run).
+
 Role Variables
 --------------
 
