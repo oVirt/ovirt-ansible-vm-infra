@@ -28,6 +28,7 @@
       async_status: "jid={{ item.ansible_job_id }}"
       register: job_result
       with_items: "{{ all_vms }}"
+      when: all_vms is defined
       until: job_result.finished
       retries: "{{ (vm_infra_create_all_timeout|int // vm_infra_create_poll_interval) + 1  }}"
       delay: "{{ vm_infra_create_poll_interval }}"
@@ -86,10 +87,11 @@
         loop_var: "current_vm"
 
     - name: Wait for VMs to be started
-      no_log: "{{ not debug_vm_create }}"
+      #no_log: "{{ not debug_vm_create }}"
       async_status: "jid={{ item.ansible_job_id }}"
       register: job_result
       with_items: "{{ started_vms }}"
+      when: started_vms is defined
       until: job_result.finished
       retries: "{{ (vm_infra_create_all_timeout|int // vm_infra_create_poll_interval) + 1  }}"
       delay: "{{ vm_infra_create_poll_interval }}"
