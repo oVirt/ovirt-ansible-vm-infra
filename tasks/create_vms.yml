@@ -19,6 +19,7 @@
     description: "{{ current_vm.description | default(current_vm.profile.description) | default(omit) }}"
     high_availability: "{{ current_vm.high_availability | default(current_vm.profile.high_availability) | default(omit) }}"
     high_availability_priority: "{{ current_vm.high_availability_priority | default(current_vm.profile.high_availability_priority) | default(omit) }}"
+    io_threads: "{{ current_vm.io_threads  | default(current_vm.profile.io_threads ) | default(omit) }}"
     storage_domain: "{{ current_vm.storage_domain | default(current_vm.profile.storage_domain) | default(omit) }}"
     lease: "{{ current_vm.lease | default(current_vm.profile.lease) | default(omit) }}"
     timeout: "{{ vm_infra_create_single_timeout }}"

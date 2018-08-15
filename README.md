@@ -41,7 +41,7 @@ Role Variables
 --------------
 
 | Name                           | Default value |                                              |
-|--------------------------------|---------------|----------------------------------------------| 
+|--------------------------------|---------------|----------------------------------------------|
 | vms                            | UNDEF         | List of dictionaries with virtual machine specifications.   |
 | affinity_groups                | UNDEF         | List of dictionaries with affinity groups specifications.   |
 | wait_for_ip                    | false         | If true, the playbook should wait for the virtual machine IP reported by the guest agent.  |
@@ -57,7 +57,7 @@ Role Variables
 The `vms` and `profile` variables can contain following attributes, note that if you define same variable in both the value in `vms` has precendence:
 
 | Name               | Default value         |                                            |
-|--------------------|-----------------------|--------------------------------------------| 
+|--------------------|-----------------------|--------------------------------------------|
 | name               | UNDEF                 | Name of the virtual machine to create.     |
 | tag                | UNDEF                 | Name of the tag to assign to the virtual machine. Only administrator users can use this attribute.  |
 | cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. See below <i>cloud_init</i> section for more detailed description. |
@@ -81,6 +81,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | custom_properties  | UNDEF                 | Properties sent to VDSM to configure various hooks.<br/> Custom properties is a list of dictionary which can have following values: <br/><i>name</i> - Name of the custom property. For example: hugepages, vhost, sap_agent, etc.<br/><i>regexp</i> - Regular expression to set for custom property.<br/><i>value</i> - Value to set for custom property. |
 | high_availability  | UNDEF                 | Whether or not the node should be set highly available. |
 | high_availability_priority | UNDEF                 | Indicates the priority of the virtual machine inside the run and migration queues. Virtual machines with higher priorities will be started and migrated before virtual machines with lower priorities. The value is an integer between 0 and 100. The higher the value, the higher the priority. If no value is passed, default value is set by oVirt/RHV engine. |
+| io_threads         | UNDEF                 | Number of IO threads used by virtual machine. 0 means IO threading disabled. |
 | description        | UNDEF                 | Description of the Virtual Machine. |
 | graphical_console  | UNDEF                 | Assign graphical console to the virtual machine.<br/>Graphical console is a dictionary which can have following values:<br/><i>headless_mode</i> - If true disable the graphics console for this virtual machine.<br/><i>protocol</i> - 'VNC', 'Spice' or both. |
 | storage_domain     | UNDEF                 | Name of the storage domain where all virtual machine disks should be created. Considered only when template is provided.|
@@ -93,7 +94,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 The item in `disks` list of `profile` dictionary can contain following attributes:
 
 | Name               | Default value  |                                              |
-|--------------------|----------------|----------------------------------------------| 
+|--------------------|----------------|----------------------------------------------|
 | size               | UNDEF          | The size of the additional disk. |
 | name               | UNDEF          | The name of the additional disk.  |
 | storage_domain     | UNDEF          | The name of storage domain where disk should be created. |
@@ -104,7 +105,7 @@ The item in `disks` list of `profile` dictionary can contain following attribute
 The item in `nics` list of `profile` dictionary can contain following attributes:
 
 | Name               | Default value  |                                              |
-|--------------------|----------------|----------------------------------------------| 
+|--------------------|----------------|----------------------------------------------|
 | name               | UNDEF          | The name of the network interface.           |
 | interface          | UNDEF          | Type of the network interface.               |
 | mac_address        | UNDEF          | Custom MAC address of the network interface, by default it's obtained from MAC pool. |
