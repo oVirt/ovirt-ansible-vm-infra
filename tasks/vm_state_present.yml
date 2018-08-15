@@ -68,7 +68,7 @@
     loop_var: "current_vm"
 
 - name: Wait for VMs to be started
-  #no_log: "{{ not debug_vm_create }}"
+  no_log: "{{ not debug_vm_create }}"
   async_status: "jid={{ item.ansible_job_id }}"
   register: job_result
   with_items: "{{ started_vms }}"
