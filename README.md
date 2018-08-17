@@ -83,6 +83,8 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | high_availability_priority | UNDEF                 | Indicates the priority of the virtual machine inside the run and migration queues. Virtual machines with higher priorities will be started and migrated before virtual machines with lower priorities. The value is an integer between 0 and 100. The higher the value, the higher the priority. If no value is passed, default value is set by oVirt/RHV engine. |
 | io_threads         | UNDEF                 | Number of IO threads used by virtual machine. 0 means IO threading disabled. |
 | description        | UNDEF                 | Description of the Virtual Machine. |
+| operating_system   | UNDEF                 | Operating system of the Virtual Machine. For example: rhel_7x64 |
+| type               | UNDEF                 | Type of the Virtual Machine. Possible values: desktop, server or high_performance |
 | graphical_console  | UNDEF                 | Assign graphical console to the virtual machine.<br/>Graphical console is a dictionary which can have following values:<br/><i>headless_mode</i> - If true disable the graphics console for this virtual machine.<br/><i>protocol</i> - 'VNC', 'Spice' or both. |
 | storage_domain     | UNDEF                 | Name of the storage domain where all virtual machine disks should be created. Considered only when template is provided.|
 | state              | present               | Should the Virtual Machine be stopped, present or running.|
