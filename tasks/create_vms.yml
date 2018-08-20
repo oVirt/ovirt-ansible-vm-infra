@@ -1,3 +1,4 @@
+---
 - name: "Create VM {{ current_vm.name }}"
   ovirt_vms:
     auth: "{{ ovirt_auth }}"
@@ -16,9 +17,13 @@
     cpu_threads: "{{ current_vm.cpu_threads | default(current_vm.profile.cpu_threads) | default(omit) }}"
     custom_properties: "{{ current_vm.custom_properties | default(current_vm.profile.custom_properties) | default(omit) }}"
     description: "{{ current_vm.description | default(current_vm.profile.description) | default(omit) }}"
+    operating_system: "{{ current_vm.operating_system | default(current_vm.profile.operating_system) | default(omit) }}"
+    type: "{{ current_vm.type | default(current_vm.profile.type) | default(omit) }}"
     high_availability: "{{ current_vm.high_availability | default(current_vm.profile.high_availability) | default(omit) }}"
     high_availability_priority: "{{ current_vm.high_availability_priority | default(current_vm.profile.high_availability_priority) | default(omit) }}"
+    io_threads: "{{ current_vm.io_threads  | default(current_vm.profile.io_threads ) | default(omit) }}"
     storage_domain: "{{ current_vm.storage_domain | default(current_vm.profile.storage_domain) | default(omit) }}"
+    lease: "{{ current_vm.lease | default(current_vm.profile.lease) | default(omit) }}"
     timeout: "{{ vm_infra_create_single_timeout }}"
   changed_when: false
   async: "{{ vm_infra_create_single_timeout }}"
