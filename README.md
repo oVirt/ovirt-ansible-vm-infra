@@ -3,8 +3,9 @@ oVirt Virtual Machine Infrastructure
 
 The `oVirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
 This role also creates inventory of created virtual machines it defines if
-`wait_for_ip` is set to `true`. All defined virtual machine are part of `ovirt_vm`
-inventory group. Role also create `ovirt_tag_{tag_name}` groups if there are any
+`wait_for_ip` is set to `true` and state of virtual machine is `running`.
+All defined virtual machine are part of `ovirt_vm` inventory group.
+Role also create `ovirt_tag_{tag_name}` groups if there are any
 tags assigned to the virtual machine and place all virtual machine with that tag
 to that inventory group.
 

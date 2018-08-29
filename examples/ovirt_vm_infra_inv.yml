@@ -13,8 +13,10 @@
     engine_user: admin@internal
     engine_cafile: /etc/pki/ovirt-engine/ca.pem
 
+    # Must be set to true to create inventory
     wait_for_ip: true
     httpd_vm:
+      # Must be set to running to create inventory
       state: running
       cluster: mycluster
       template: mytemplate
@@ -24,6 +26,7 @@
       root_password: '123456'
 
     db_vm:
+      # Must be set to running to create inventory
       state: running
       cluster: mycluster
       template: mytemplate
@@ -45,6 +48,11 @@
   roles:
     - oVirt.vm-infra
 
+
+# This role also creates inventory of created virtual machines it defines if wait_for_ip is set to true
+# and VM state is running. All defined virtual machine are part of ovirt_vm inventory group. Role also
+# create ovirt_tag_{tag_name} groups if there are any tags assigned to the virtual machine and place
+# all virtual machine with that tag to that inventory group.
 - name: Print info about httpd VM
   hosts: ovirt_tag_httpd
 
