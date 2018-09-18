@@ -49,6 +49,11 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Tue Sep 18 2018 Ondra Machacek <omachace@redhat.com> - 1.1.10-1
+- Add io_threads parameter to the role. gh#45
+- Add operating system and type to vm creation. gh#46
+- Package filter_plugins. gh#49
+
 * Wed Aug 15 2018 Ondra Machacek <omachace@redhat.com> - 1.1.9-1
 - Add ability to specify FQDN instead of URL.
 - Add new lease parameter to VM.
