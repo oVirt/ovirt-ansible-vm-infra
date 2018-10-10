@@ -29,7 +29,7 @@
 ########################################################################
 
 - name: "Manage VM '{{ current_vm.name }}' state"
-  ovirt_vms:
+  ovirt_vms_wa_44726:
     auth: "{{ ovirt_auth }}"
     state: "{{ current_vm.state | default(current_vm.profile.state) | default('present') }}"
     name: "{{ current_vm.name }}"
