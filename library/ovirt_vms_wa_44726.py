@@ -10,7 +10,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: ovirt_vm
+module: ovirt_vms
 short_description: Module to manage Virtual Machines in oVirt/RHV
 version_added: "2.2"
 author:
@@ -46,14 +46,13 @@ options:
     allow_partial_import:
         description:
             - Boolean indication whether to allow partial registration of Virtual Machine when C(state) is registered.
-        type: bool
         version_added: "2.4"
     vnic_profile_mappings:
         description:
             - "Mapper which maps an external virtual NIC profile to one that exists in the engine when C(state) is registered.
                vnic_profile is described by the following dictionary:"
             - "C(source_network_name): The network name of the source network."
-            - "C(source_profile_name): The profile name related to the source network."
+            - "C(source_profile_name): The prfile name related to the source network."
             - "C(target_profile_id): The id of the target profile id to be mapped to in the engine."
         version_added: "2.5"
     cluster_mappings:
@@ -106,7 +105,6 @@ options:
     reassign_bad_macs:
         description:
             - "Boolean indication whether to reassign bad macs when C(state) is registered."
-        type: bool
         version_added: "2.5"
     template:
         description:
@@ -188,13 +186,47 @@ options:
         description:
             - Operating system of the Virtual Machine.
             - Default value is set by oVirt/RHV engine.
-            - "Possible values: debian_7, freebsd, freebsdx64, other, other_linux,
-               other_linux_ppc64, other_ppc64, rhel_3, rhel_4, rhel_4x64, rhel_5, rhel_5x64,
-               rhel_6, rhel_6x64, rhel_6_ppc64, rhel_7x64, rhel_7_ppc64, sles_11, sles_11_ppc64,
-               ubuntu_12_04, ubuntu_12_10, ubuntu_13_04, ubuntu_13_10, ubuntu_14_04, ubuntu_14_04_ppc64,
-               windows_10, windows_10x64, windows_2003, windows_2003x64, windows_2008, windows_2008x64,
-               windows_2008r2x64, windows_2008R2x64, windows_2012x64, windows_2012R2x64, windows_7,
-               windows_7x64, windows_8, windows_8x64, windows_xp"
+        choices:
+        - debian_7
+        - freebsd
+        - freebsdx64
+        - other
+        - other_linux
+        - other_linux_ppc64
+        - other_ppc64
+        - rhel_3
+        - rhel_4
+        - rhel_4x64
+        - rhel_5
+        - rhel_5x64
+        - rhel_6
+        - rhel_6x64
+        - rhel_6_ppc64
+        - rhel_7x64
+        - rhel_7_ppc64
+        - sles_11
+        - sles_11_ppc64
+        - ubuntu_12_04
+        - ubuntu_12_10
+        - ubuntu_13_04
+        - ubuntu_13_10
+        - ubuntu_14_04
+        - ubuntu_14_04_ppc64
+        - windows_10
+        - windows_10x64
+        - windows_2003
+        - windows_2003x64
+        - windows_2008
+        - windows_2008x64
+        - windows_2008r2x64
+        - windows_2008R2x64
+        - windows_2012x64
+        - windows_2012R2x64
+        - windows_7
+        - windows_7x64
+        - windows_8
+        - windows_8x64
+        - windows_xp
     boot_devices:
         description:
             - List of boot devices which should be used to boot. For example C([ cdrom, hd ]).
@@ -203,22 +235,18 @@ options:
     boot_menu:
         description:
             - "I(True) enable menu to select boot device, I(False) to disable it. By default is chosen by oVirt/RHV engine."
-        type: bool
         version_added: "2.5"
     usb_support:
         description:
             - "I(True) enable USB support, I(False) to disable it. By default is chosen by oVirt/RHV engine."
-        type: bool
         version_added: "2.5"
     serial_console:
         description:
             - "I(True) enable VirtIO serial console, I(False) to disable it. By default is chosen by oVirt/RHV engine."
-        type: bool
         version_added: "2.5"
     sso:
         description:
             - "I(True) enable Single Sign On by Guest Agent, I(False) to disable it. By default is chosen by oVirt/RHV engine."
-        type: bool
         version_added: "2.5"
     host:
         description:
@@ -242,29 +270,16 @@ options:
             - Name of the storage domain this virtual machine lease reside on.
             - NOTE - Supported since oVirt 4.1.
         version_added: "2.4"
-    custom_compatibility_version:
-        description:
-            - "Enables a virtual machine to be customized to its own compatibility version. If
-            'C(custom_compatibility_version)' is set, it overrides the cluster's compatibility version
-            for this particular virtual machine."
-        version_added: "2.7"
-    host_devices:
-        description:
-            - Single Root I/O Virtualization - technology that allows single device to expose multiple endpoints that can be passed to VMs
-            - host_devices is an list which contain dictinary with name and state of device
-        version_added: "2.7"
     delete_protected:
         description:
             - If I(yes) Virtual Machine will be set as delete protected.
             - If I(no) Virtual Machine won't be set as delete protected.
             - If no value is passed, default value is set by oVirt/RHV engine.
-        type: bool
     stateless:
         description:
             - If I(yes) Virtual Machine will be set as stateless.
             - If I(no) Virtual Machine will be unset as stateless.
             - If no value is passed, default value is set by oVirt/RHV engine.
-        type: bool
     clone:
         description:
             - If I(yes) then the disks of the created virtual machine will be cloned and independent of the template.
@@ -302,8 +317,8 @@ options:
     disks:
         description:
             - List of disks, which should be attached to Virtual Machine. Disk is described by following dictionary.
-            - C(name) - Name of the disk. Either C(name) or C(id) is required.
-            - C(id) - ID of the disk. Either C(name) or C(id) is required.
+            - C(name) - Name of the disk. Either C(name) or C(id) is reuqired.
+            - C(id) - ID of the disk. Either C(name) or C(id) is reuqired.
             - C(interface) - Interface of the disk, either I(virtio) or I(IDE), default is I(virtio).
             - C(bootable) - I(True) if the disk should be bootable, default is non bootable.
             - C(activate) - I(True) if the disk should be activated, default is activated.
@@ -344,7 +359,7 @@ options:
             - C(nic_on_boot) - If I(True) network interface will be set to start on boot.
     cloud_init_nics:
         description:
-            - List of dictionaries representing network interfaces to be setup by cloud init.
+            - List of dictionaries representing network interafaces to be setup by cloud init.
             - This option is used, when user needs to setup more network interfaces via cloud init.
             - If one network interface is enough, user should use C(cloud_init) I(nic_*) parameters. C(cloud_init) I(nic_*) parameters
               are merged with C(cloud_init_nics) parameters.
@@ -360,7 +375,6 @@ options:
         description:
             - "If I(true) the C(cloud_init) or C(sysprep) parameters will be saved for the virtual machine
                and won't be virtual machine won't be started as run-once."
-        type: bool
         version_added: "2.5"
         aliases: [ 'sysprep_persist' ]
     kernel_path:
@@ -402,7 +416,6 @@ options:
             - C(vm) - Sets the Virtual Machine's UUID as its serial number.
             - C(host) - Sets the host's UUID as the Virtual Machine's serial number.
             - C(custom) - Allows you to specify a custom serial number in C(serial_policy_value).
-        choices: ['vm', 'host', 'custom']
         version_added: "2.3"
     serial_policy_value:
         description:
@@ -474,12 +487,6 @@ options:
             - "C(user_migratable) - Allow manual migration only."
             - "If no value is passed, default value is set by oVirt/RHV engine."
         version_added: "2.5"
-    ticket:
-        description:
-            - "If I(true), in addition return I(remote_vv_file) inside I(vm) dictionary, which contains compatible
-                content for remote-viewer application. Works only C(state) is I(running)."
-        version_added: "2.7"
-        type: bool
     cpu_pinning:
         description:
             - "CPU Pinning topology to map virtual machine CPU to host CPU."
@@ -490,12 +497,10 @@ options:
     soundcard_enabled:
         description:
             - "If I(true), the sound card is added to the virtual machine."
-        type: bool
         version_added: "2.5"
     smartcard_enabled:
         description:
             - "If I(true), use smart card authentication."
-        type: bool
         version_added: "2.5"
     io_threads:
         description:
@@ -506,14 +511,12 @@ options:
             - "If I(true), use memory ballooning."
             - "Memory balloon is a guest device, which may be used to re-distribute / reclaim the host memory
                based on VM needs in a dynamic way. In this way it's possible to create memory over commitment states."
-        type: bool
         version_added: "2.5"
     numa_tune_mode:
         description:
             - "Set how the memory allocation for NUMA nodes of this VM is applied (relevant if NUMA nodes are set for this VM)."
             - "It can be one of the following: I(interleave), I(preferred) or I(strict)."
             - "If no value is passed, default value is set by oVirt/RHV engine."
-        choices: ['interleave', 'preferred', 'strict']
         version_added: "2.6"
     numa_nodes:
         description:
@@ -577,28 +580,28 @@ EXAMPLES = '''
 # look at ovirt_auth module to see how to reuse authentication:
 
 - name: Creates a new Virtual Machine from template named 'rhel7_template'
-  ovirt_vm:
+  ovirt_vms:
     state: present
     name: myvm
     template: rhel7_template
     cluster: mycluster
 
 - name: Register VM
-  ovirt_vm:
+  ovirt_vms:
     state: registered
     storage_domain: mystorage
     cluster: mycluster
     name: myvm
 
 - name: Register VM using id
-  ovirt_vm:
+  ovirt_vms:
     state: registered
     storage_domain: mystorage
     cluster: mycluster
     id: 1111-1111-1111-1111
 
 - name: Register VM, allowing partial import
-  ovirt_vm:
+  ovirt_vms:
     state: registered
     storage_domain: mystorage
     allow_partial_import: "True"
@@ -606,7 +609,7 @@ EXAMPLES = '''
     id: 1111-1111-1111-1111
 
 - name: Register VM with vnic profile mappings and reassign bad macs
-  ovirt_vm:
+  ovirt_vms:
     state: registered
     storage_domain: mystorage
     cluster: mycluster
@@ -621,7 +624,7 @@ EXAMPLES = '''
     reassign_bad_macs: "True"
 
 - name: Register VM with mappings
-  ovirt_vm:
+  ovirt_vms:
     state: registered
     storage_domain: mystorage
     cluster: mycluster
@@ -656,7 +659,7 @@ EXAMPLES = '''
         dest_name: cluster_B
 
 - name: Creates a stateless VM which will always use latest template version
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     template: rhel7
     cluster: mycluster
@@ -665,7 +668,7 @@ EXAMPLES = '''
 # Creates a new server rhel7 Virtual Machine from Blank template
 # on brq01 cluster with 2GiB memory and 2 vcpu cores/sockets
 # and attach bootable disk with name rhel7_disk and attach virtio NIC
-- ovirt_vm:
+- ovirt_vms:
     state: present
     cluster: brq01
     name: myvm
@@ -682,7 +685,7 @@ EXAMPLES = '''
       - name: nic1
 
 - name: Run VM with cloud init
-  ovirt_vm:
+  ovirt_vms:
     name: rhel7
     template: rhel7
     cluster: Default
@@ -707,7 +710,7 @@ EXAMPLES = '''
       root_password: super_password
 
 - name: Run VM with cloud init, with multiple network interfaces
-  ovirt_vm:
+  ovirt_vms:
     name: rhel7_4
     template: rhel7
     cluster: mycluster
@@ -723,7 +726,7 @@ EXAMPLES = '''
       nic_on_boot: true
 
 - name: Run VM with sysprep
-  ovirt_vm:
+  ovirt_vms:
     name: windows2012R2_AD
     template: windows2012R2
     cluster: Default
@@ -735,47 +738,47 @@ EXAMPLES = '''
       root_password: SuperPassword123
 
 - name: Migrate/Run VM to/on host named 'host1'
-  ovirt_vm:
+  ovirt_vms:
     state: running
     name: myvm
     host: host1
 
 - name: Change VMs CD
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     cd_iso: drivers.iso
 
 - name: Eject VMs CD
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     cd_iso: ''
 
 - name: Boot VM from CD
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     cd_iso: centos7_x64.iso
     boot_devices:
         - cdrom
 
 - name: Stop vm
-  ovirt_vm:
+  ovirt_vms:
     state: stopped
     name: myvm
 
 - name: Upgrade memory to already created VM
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     memory: 4GiB
 
 - name: Hot plug memory to already created and running VM (VM won't be restarted)
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     memory: 4GiB
 
 # Create/update a VM to run with two vNUMA nodes and pin them to physical NUMA nodes as follows:
 # vnuma index 0-> numa index 0, vnuma index 1-> numa index 1
 - name: Create a VM to run with two vNUMA nodes
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     cluster: mycluster
     numa_tune_mode: "interleave"
@@ -790,7 +793,7 @@ EXAMPLES = '''
       numa_node_pins: [1]
 
 - name: Update an existing VM to run without previously created vNUMA nodes (i.e. remove all vNUMA nodes+NUMA pinning setting)
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     cluster: mycluster
     state: "present"
@@ -801,14 +804,14 @@ EXAMPLES = '''
 # When change on the VM needs restart of the VM, use next_run state,
 # The VM will be updated and rebooted if there are any changes.
 # If present state would be used, VM won't be restarted.
-- ovirt_vm:
+- ovirt_vms:
     state: next_run
     name: myvm
     boot_devices:
       - network
 
 - name: Import virtual machine from VMware
-  ovirt_vm:
+  ovirt_vms:
     state: stopped
     cluster: mycluster
     name: vmware_win10
@@ -822,7 +825,7 @@ EXAMPLES = '''
       password: password
 
 - name: Create vm from template and create all disks on specific storage domain
-  ovirt_vm:
+  ovirt_vms:
     name: vm_test
     cluster: mycluster
     template: mytemplate
@@ -831,7 +834,7 @@ EXAMPLES = '''
     - name: nic1
 
 - name: Remove VM, if VM is running it will be stopped
-  ovirt_vm:
+  ovirt_vms:
     state: absent
     name: myvm
 
@@ -840,7 +843,7 @@ EXAMPLES = '''
 - ovirt_quotas_facts:
     data_center: Default
     name: myquota
-- ovirt_vm:
+- ovirt_vms:
     name: myvm
     sso: False
     boot_menu: True
@@ -849,7 +852,7 @@ EXAMPLES = '''
     quota_id: "{{ ovirt_quotas[0]['id'] }}"
 
 - name: Create a VM that has the console configured for both Spice and VNC
-  ovirt_vm:
+  ovirt_vms:
     name: myvm
     template: mytemplate
     cluster: mycluster
@@ -857,37 +860,6 @@ EXAMPLES = '''
       protocol:
         - spice
         - vnc
-
-# Execute remote viever to VM
-- block:
-  - name: Create a ticket for console for a running VM
-    ovirt_vms:
-      name: myvm
-      ticket: true
-      state: running
-    register: myvm
-
-  - name: Save ticket to file
-    copy:
-      content: "{{ myvm.vm.remote_vv_file }}"
-      dest: ~/vvfile.vv
-
-  - name: Run remote viewer with file
-    command: remote-viewer ~/vvfile.vv
-
-# Default value of host_device state is present
-- name: Attach host devices to virtual machine
-  ovirt_vm:
-    name: myvm
-    host: myhost
-    placement_policy: pinned
-    host_devices:
-      - name: pci_0000_00_06_0
-      - name: pci_0000_00_07_0
-        state: absent
-      - name: pci_0000_00_08_0
-        state: present
-
 '''
 
 
@@ -899,10 +871,7 @@ id:
     sample: 7de90f31-222c-436c-a1ca-7e655bd5b60c
 vm:
     description: "Dictionary of all the VM attributes. VM attributes can be found on your oVirt/RHV instance
-                  at following url: http://ovirt.github.io/ovirt-engine-api-model/master/#types/vm.
-                  Additionally when user sent ticket=true, this module will return also remote_vv_file
-                  parameter in vm dictionary, which contains remote-viewer compatible file to open virtual
-                  machine console. Please note that this file contains sensible information."
+                  at following url: http://ovirt.github.io/ovirt-engine-api-model/master/#types/vm."
     returned: On success if VM is found.
     type: dict
 '''
@@ -947,9 +916,7 @@ class VmsModule(BaseModule):
         template = None
         templates_service = self._connection.system_service().templates_service()
         if self.param('template'):
-            templates = templates_service.list(
-                search='name=%s and cluster=%s' % (self.param('template'), self.param('cluster'))
-            )
+            templates = templates_service.list(search='name=%s' % self.param('template'))
             if self.param('template_version'):
                 templates = [
                     t for t in templates
@@ -957,10 +924,9 @@ class VmsModule(BaseModule):
                 ]
             if not templates:
                 raise ValueError(
-                    "Template with name '%s' and version '%s' in cluster '%s' was not found'" % (
+                    "Template with name '%s' and version '%s' was not found'" % (
                         self.param('template'),
-                        self.param('template_version'),
-                        self.param('cluster')
+                        self.param('template_version')
                     )
                 )
             template = sorted(templates, key=lambda t: t.version.version_number, reverse=True)[0]
@@ -1100,10 +1066,6 @@ class VmsModule(BaseModule):
                     self.param('instance_type'),
                 ),
             ) if self.param('instance_type') else None,
-            custom_compatibility_version=otypes.Version(
-                major=self._get_major(self.param('custom_compatibility_version')),
-                minor=self._get_minor(self.param('custom_compatibility_version')),
-            ) if self.param('custom_compatibility_version') else None,
             description=self.param('description'),
             comment=self.param('comment'),
             time_zone=otypes.TimeZone(
@@ -1191,8 +1153,6 @@ class VmsModule(BaseModule):
             equal(self.param('io_threads'), entity.io.threads) and
             equal(self.param('ballooning_enabled'), entity.memory_policy.ballooning) and
             equal(self.param('serial_console'), entity.console.enabled) and
-            equal(self._get_minor(self.param('custom_compatibility_version')), self._get_minor(entity.custom_compatibility_version)) and
-            equal(self._get_major(self.param('custom_compatibility_version')), self._get_major(entity.custom_compatibility_version)) and
             equal(self.param('usb_support'), entity.usb.enabled) and
             equal(self.param('sso'), True if entity.sso.methods else False) and
             equal(self.param('quota_id'), getattr(entity.quota, 'id', None)) and
@@ -1232,7 +1192,6 @@ class VmsModule(BaseModule):
         self.changed = self.__attach_numa_nodes(entity)
         self.changed = self.__attach_watchdog(entity)
         self.changed = self.__attach_graphical_console(entity)
-        self.changed = self.__attach_host_devices(entity)
 
     def pre_remove(self, entity):
         # Forcibly stop the VM, if it's not in DOWN state:
@@ -1627,36 +1586,10 @@ class VmsModule(BaseModule):
             )
         return self._initialization
 
-    def __attach_host_devices(self, entity):
-        vm_service = self._service.service(entity.id)
-        host_devices_service = vm_service.host_devices_service()
-        host_devices = self.param('host_devices')
-        updated = False
-        if host_devices:
-            device_names = [dev.name for dev in host_devices_service.list()]
-            for device in host_devices:
-                device_name = device.get('name')
-                state = device.get('state', 'present')
-                if state == 'absent' and device_name in device_names:
-                    updated = True
-                    if not self._module.check_mode:
-                        device_id = get_id_by_name(host_devices_service, device.get('name'))
-                        host_devices_service.device_service(device_id).remove()
-
-                elif state == 'present' and device_name not in device_names:
-                    updated = True
-                    if not self._module.check_mode:
-                        host_devices_service.add(
-                            otypes.HostDevice(
-                                name=device.get('name'),
-                            )
-                        )
-
-        return updated
-
 
 def _get_role_mappings(module):
     roleMappings = list()
+
     for roleMapping in module.params['role_mappings']:
         roleMappings.append(
             otypes.RegistrationRoleMapping(
@@ -1876,7 +1809,7 @@ def control_state(vm, vms_service, module):
         vm.status == otypes.VmStatus.UNKNOWN
     ):
         # Invalid states:
-        module.fail_json(msg="Not possible to control VM, if it's in '{0}' status".format(vm.status))
+        module.fail_json(msg="Not possible to control VM, if it's in '{}' status".format(vm.status))
     elif vm.status == otypes.VmStatus.POWERING_DOWN:
         if (force and state == 'stopped') or state == 'absent':
             vm_service.stop()
@@ -1917,7 +1850,7 @@ def main():
         type=dict(type='str', choices=['server', 'desktop', 'high_performance']),
         operating_system=dict(type='str'),
         cd_iso=dict(type='str'),
-        boot_devices=dict(type='list', choices=['cdrom', 'hd', 'network']),
+        boot_devices=dict(type='list'),
         vnic_profile_mappings=dict(default=[], type='list'),
         cluster_mappings=dict(default=[], type='list'),
         role_mappings=dict(default=[], type='list'),
@@ -1959,8 +1892,6 @@ def main():
         kvm=dict(type='dict'),
         cpu_mode=dict(type='str'),
         placement_policy=dict(type='str'),
-        custom_compatibility_version=dict(type='str'),
-        ticket=dict(type='bool', default=None),
         cpu_pinning=dict(type='list'),
         soundcard_enabled=dict(type='bool', default=None),
         smartcard_enabled=dict(type='bool', default=None),
@@ -1971,7 +1902,6 @@ def main():
         numa_nodes=dict(type='list', default=[]),
         custom_properties=dict(type='list'),
         watchdog=dict(type='dict'),
-        host_devices=dict(type='list'),
         graphical_console=dict(type='dict'),
     )
     module = AnsibleModule(
@@ -1979,7 +1909,6 @@ def main():
         supports_check_mode=True,
         required_one_of=[['id', 'name']],
     )
-
     check_sdk(module)
     check_params(module)
 
@@ -2056,15 +1985,6 @@ def main():
                     ) else None,
                 )
 
-                if module.params['ticket']:
-                    vm_service = vms_service.vm_service(ret['id'])
-                    graphics_consoles_service = vm_service.graphics_consoles_service()
-                    graphics_console = graphics_consoles_service.list()[0]
-                    console_service = graphics_consoles_service.console_service(graphics_console.id)
-                    ticket = console_service.remote_viewer_connection_file()
-                    if ticket:
-                        ret['vm']['remote_vv_file'] = ticket
-
             if state == 'next_run':
                 # Apply next run configuration, if needed:
                 vm = vms_service.vm_service(ret['id']).get()
@@ -2101,7 +2021,7 @@ def main():
                 )
             vms_module.post_present(ret['id'])
         elif state == 'suspended':
-            ret = vms_module.create(
+            vms_module.create(
                 entity=vm,
                 result_state=otypes.VmStatus.DOWN if vm is None else None,
                 clone=module.params['clone'],
@@ -2124,7 +2044,7 @@ def main():
             storage_domain_service = storage_domains_service.storage_domain_service(sd_id)
             vms_service = storage_domain_service.vms_service()
 
-            # Find the unregistered VM we want to register:
+            # Find the the unregistered VM we want to register:
             vms = vms_service.list(unregistered=True)
             vm = next(
                 (vm for vm in vms if (vm.id == module.params['id'] or vm.name == module.params['name'])),
