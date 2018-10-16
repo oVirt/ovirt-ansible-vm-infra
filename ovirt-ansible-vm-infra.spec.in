@@ -49,6 +49,10 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Tue Oct 16 2018 Ondra Machacek <omachace@redhat.com> - 1.1.11-1
+- Correct spliting vms. gh#50
+- Workaround to fix async tasks of PR #44726. gh#52
+
 * Tue Sep 18 2018 Ondra Machacek <omachace@redhat.com> - 1.1.10-1
 - Add io_threads parameter to the role. gh#45
 - Add operating system and type to vm creation. gh#46
