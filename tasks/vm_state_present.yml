@@ -116,7 +116,7 @@
       retries: "{{ vm_infra_wait_for_ip_retries }}"
       delay: "{{ vm_infra_wait_for_ip_delay }}"
       when: "(item.state is undefined and item.profile.state is defined and item.profile.state != 'stopped') and (item.state is defined and item.state != 'stopped') | default('present') != 'stopped'"
-      #need to refactor with new version of ansible
+      # FIXME: Refactor the condition
 
     - name: Create inventory
       include_tasks: create_inventory.yml
