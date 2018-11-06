@@ -4,7 +4,7 @@ VERSION="1.1.12"
 MILESTONE=master
 RPM_RELEASE="0.1.$MILESTONE.$(date -u +%Y%m%d%H%M%S)"
 
-ROLE_NAME="oVirt.vm-infra"
+ROLE_NAME="ovirt.vm-infra"
 PACKAGE_NAME="ovirt-ansible-vm-infra"
 PREFIX=/usr/local
 DATAROOT_DIR=$PREFIX/share
@@ -14,6 +14,7 @@ PKG_DATA_DIR=${PKG_DATA_DIR:-$ROLES_DATAROOT_DIR/$PACKAGE_NAME}
 PKG_DATA_DIR_ORIG=${PKG_DATA_DIR_ORIG:-$PKG_DATA_DIR}
 PKG_DOC_DIR=${PKG_DOC_DIR:-$DOC_DIR/$PACKAGE_NAME}
 ROLENAME_LEGACY="${ROLENAME_LEGACY:-$ROLES_DATAROOT_DIR/ovirt-vm-infra}"
+ROLENAME_LEGACY_UPPERCASE="${ROLENAME_LEGACY_UPPERCASE:-$ROLES_DATAROOT_DIR/oVirt.vm-infra}"
 
 RPM_VERSION=$VERSION
 PACKAGE_VERSION=$VERSION
@@ -42,6 +43,9 @@ install() {
 
   # Create a symlink, so legacy role name does work:
   ln -f -s $PKG_DATA_DIR_ORIG $ROLENAME_LEGACY 
+
+  # Create a symlink, so legacy role name does work with upper case:
+  ln -f -s $PKG_DATA_DIR_ORIG $ROLENAME_LEGACY_UPPERCASE
   
   cp -pR defaults/ $PKG_DATA_DIR
   cp -pR library/ $PKG_DATA_DIR
