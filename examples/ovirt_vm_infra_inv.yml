@@ -46,7 +46,7 @@
         profile: db_vm
 
   roles:
-    - oVirt.vm-infra
+    - ovirt.vm-infra
 
 
 # This role also creates inventory of created virtual machines it defines if wait_for_ip is set to true

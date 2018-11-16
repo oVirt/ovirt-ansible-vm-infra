@@ -1,6 +1,7 @@
 %global rolename vm-infra
-%global roleprefix oVirt.
+%global roleprefix ovirt.
 %global roleprefix_legacy ovirt-
+%global roleprefix_legacy_uppercase oVirt.
 %global ansible_roles_dir ansible/roles
 
 Name: @PACKAGE_NAME@
@@ -21,10 +22,17 @@ This Ansible role provide funtionality to create virtual machine infrastructure.
 %pretrans -p <lua>
 -- Remove the legacy directory before installing the symlink. This is known issue in RPM:
 -- https://fedoraproject.org/wiki/Packaging:Directory_Replacement
-path = "%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy}%{rolename}"
-st = posix.stat(path)
+path_dash = "%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy}%{rolename}"
+path_uppercase = "%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy_uppercase}%{rolename}"
+
+st = posix.stat(path_dash)
 if st and st.type == "directory" then
-  os.execute('rm -rf "'..path..'"')
+  os.execute('rm -rf "'..path_dash..'"')
+end
+
+st = posix.stat(path_uppercase)
+if st and st.type == "directory" then
+  os.execute('rm -rf "'..path_uppercase..'"')
 end
 
 %prep
@@ -37,11 +45,13 @@ export PKG_DATA_DIR_ORIG=%{_datadir}/%{ansible_roles_dir}/%{roleprefix}%{rolenam
 export PKG_DATA_DIR=%{buildroot}$PKG_DATA_DIR_ORIG
 export PKG_DOC_DIR=%{buildroot}%{_pkgdocdir}
 export ROLENAME_LEGACY=%{buildroot}%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy}%{rolename}
+export ROLENAME_LEGACY_UPPERCASE=%{buildroot}%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy_uppercase}%{rolename}
 sh build.sh install
 
 %files
 %{_datadir}/%{ansible_roles_dir}/%{roleprefix}%{rolename}
 %{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy}%{rolename}
+%{_datadir}/%{ansible_roles_dir}/%{roleprefix_legacy_uppercase}%{rolename}
 
 %doc README.md
 %doc examples/

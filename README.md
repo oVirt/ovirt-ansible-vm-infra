@@ -1,7 +1,7 @@
 oVirt Virtual Machine Infrastructure
 ====================================
 
-The `oVirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
+The `ovirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
 This role also creates inventory of created virtual machines it defines if
 `wait_for_ip` is set to `true` and state of virtual machine is `running`.
 All defined virtual machine are part of `ovirt_vm` inventory group.
@@ -26,6 +26,24 @@ The role will create inventory groups `ovirt_vm` where will be both virtual
 machines `myvm1` and `myvm2`. The role also create inventory groups `ovirt_tag_mytag1`
 with virtual machine `myvm1` and inventory group `ovirt_tag_mytag2` with virtual
 machine `myvm2`.
+
+Note
+----
+Please note that when installing this role from Ansible Galaxy you are instructed to run following command:
+
+```bash
+$ ansible-galaxy install ovirt.vm-infra
+```
+
+This will download the role to the directory with the same name as you specified on the
+command line, in this case `ovirt.vm-infra`. But note that it is case sensitive, so if you specify
+for example `OVIRT.vm-infra` it will download the same role, but it will add it to the directory named
+`OVIRT.vm-infra`, so you later always have to use this role with upper case prefix. So be careful how
+you specify the name of the role on command line.
+
+For the RPM installation we install three legacy names `ovirt.vm-infra`, `oVirt.vm-infra` and `ovirt-vm-infra`.
+So you can use any of this name. This documentation and examples in this repository are using name `ovirt.vm-infra`.
+`oVirt.vm-infra` and `ovirt-vm-infra` role names are deprecated.
 
 Requirements
 ------------
@@ -238,10 +256,10 @@ Example Playbook
           - postgresql-vm-1
 
   roles:
-    - oVirt.vm-infra
+    - ovirt.vm-infra
 ```
 
-The example below shows how to use inventory created by `oVirt.vm-infra` role in follow up play.
+The example below shows how to use inventory created by `ovirt.vm-infra` role in follow up play.
 
 ```yaml
 ---
@@ -277,7 +295,7 @@ The example below shows how to use inventory created by `oVirt.vm-infra` role in
         profile: "{{ httpd_vm }}"
 
   roles:
-    - oVirt.vm-infra
+    - ovirt.vm-infra
 
 - name: Deploy apache on VM
   hosts: ovirt_tag_apache
