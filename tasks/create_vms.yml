@@ -1,6 +1,6 @@
 ---
 - name: "Create VM {{ current_vm.name }}"
-  ovirt_vms_wa_44726:
+  ovirt_vms:
     auth: "{{ ovirt_auth }}"
     state: "present"
     name: "{{ current_vm.name }}"
