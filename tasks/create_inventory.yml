@@ -1,6 +1,6 @@
 ---
 - name: Fetch created VMs
-  ovirt_vms_facts:
+  ovirt_vm_facts:
     auth: "{{ ovirt_auth }}"
     pattern: "name={{ vms | map(attribute='name') | join(' or name=') }}"
     fetch_nested: true

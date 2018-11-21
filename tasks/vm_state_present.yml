@@ -15,7 +15,7 @@
   delay: "{{ vm_infra_create_poll_interval }}"
 
 - name: Manage disks
-  ovirt_disks:
+  ovirt_disk:
     auth: "{{ ovirt_auth }}"
     name: "{{ item.0.name }}_{{ item.1.name }}"
     vm_name: "{{ item.0.name }}"
@@ -32,7 +32,7 @@
       skip_missing: true
 
 - name: Manage profile NICs
-  ovirt_nics:
+  ovirt_nic:
     auth: "{{ ovirt_auth }}"
     vm: "{{ item.0.name }}"
     name: "{{ item.1.name | default(omit) }}"
@@ -47,7 +47,7 @@
       skip_missing: true
 
 - name: Manage virtual machines NICs
-  ovirt_nics:
+  ovirt_nic:
     auth: "{{ ovirt_auth }}"
     vm: "{{ item.0.name }}"
     name: "{{ item.1.name | default(omit) }}"
@@ -79,7 +79,7 @@
 
 # to_json|from_json in vms is WA for: https://github.com/ansible/ansible/issues/27299
 - name: Apply tags from VM profiles
-  ovirt_tags:
+  ovirt_tag:
     auth: "{{ ovirt_auth }}"
     name: "{{ item }}"
     vms: "{{ create_vms|to_json|from_json|json_query(query)|map(attribute='name') | list }}"
@@ -88,7 +88,7 @@
     query: "[?contains(tag, '{{ item }}')]"
 
 - name: Apply tags from VMs
-  ovirt_tags:
+  ovirt_tag:
     auth: "{{ ovirt_auth }}"
     name: "{{ item }}"
     vms: "{{ create_vms|to_json|from_json|json_query(query)|map(attribute='name') | list }}"
@@ -105,7 +105,7 @@
         ip_cond: "ovirt_vms | ovirtvmip{{ wait_for_ip_version }} | length > 0"
 
     - name: Wait for VMs IP
-      ovirt_vms_facts:
+      ovirt_vm_facts:
         auth: "{{ ovirt_auth }}"
         pattern: "name={{ item.name }}"
         fetch_nested: true
