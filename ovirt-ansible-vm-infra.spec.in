@@ -59,6 +59,10 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Wed Nov 21 2018 Ondra Machacek <omachace@redhat.com> - 1.1.12-1
+- Support ovirt.vm-infra name.
+- Require Ansible 2.7.2.
+
 * Tue Oct 16 2018 Ondra Machacek <omachace@redhat.com> - 1.1.11-1
 - Correct spliting vms. gh#50
 - Workaround to fix async tasks of PR #44726. gh#52
