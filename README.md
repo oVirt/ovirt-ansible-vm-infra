@@ -201,7 +201,7 @@ Example Playbook
     - passwords.yml
 
   vars:
-    engine_url: https://ovirt-engine.example.com/ovirt-engine/api
+    engine_fqdn: ovirt-engine.example.com
     engine_user: admin@internal
     engine_cafile: /etc/pki/ovirt-engine/ca.pem
 
