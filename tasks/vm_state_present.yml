@@ -14,6 +14,9 @@
   retries: "{{ (vm_infra_create_all_timeout|int // vm_infra_create_poll_interval) + 1  }}"
   delay: "{{ vm_infra_create_poll_interval }}"
 
+- name: Apply any Affinity Groups
+  import_tasks: affinity_groups.yml
+
 - name: Manage disks
   ovirt_disk:
     auth: "{{ ovirt_auth }}"
@@ -97,8 +100,6 @@
     query: "[?contains(profile.tag, '{{ item }}')]"
     defined_vms: "{{ create_vms | selectattr('profile.tag', 'defined') | list | unique }}"
 
-- name: Apply any Affinity Groups
-  import_tasks: affinity_groups.yml
 
 - block:
     - set_fact:
