@@ -15,6 +15,8 @@
     cpu_sockets: "{{ current_vm.sockets | default(current_vm.profile.sockets) | default(omit) }}"
     cpu_shares: "{{ current_vm.cpu_shares | default(current_vm.profile.cpu_cores) | default(omit) }}"
     cpu_threads: "{{ current_vm.cpu_threads | default(current_vm.profile.cpu_threads) | default(omit) }}"
+    cpu_mode: "{{ current_vm.cpu_mode | default(current_vm.profile.cpu_mode) | default(omit) }}"
+    placement_policy: "{{ 'user_migratable' if ((current_vm.profile.cpu_mode is defined and current_vm.profile.cpu_mode == 'host_passthrough') or (current_vm.cpu_mode is defined and current_vm.cpu_mode == 'host_passthrough')) else current_vm.placement_policy | default(current_vm.profile.placement_policy) | default(omit) }}"
     custom_properties: "{{ current_vm.custom_properties | default(current_vm.profile.custom_properties) | default(omit) }}"
     description: "{{ current_vm.description | default(current_vm.profile.description) | default(omit) }}"
     operating_system: "{{ current_vm.operating_system | default(current_vm.profile.operating_system) | default(omit) }}"
