@@ -111,6 +111,8 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | domain             | UNDEF                 | The domain of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>host_name</i> in <i>cloud_init</i> dictionary.|
 | lease              | UNDEF                 | Name of the storage domain this virtual machine lease reside on. |
 | root_password      | UNDEF                 | The root password of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>root_password</i> in <i>cloud_init</i> dictionary.|
+| cpu_mode           | UNDEF                 | CPU mode of the virtual machine. It can be some of the following: host_passthrough, host_model or custom. |
+| placement_policy   | UNDEF                 | The configuration of the virtual machine's placement policy. |
 
 The item in `disks` list of `profile` dictionary can contain following attributes:
 
