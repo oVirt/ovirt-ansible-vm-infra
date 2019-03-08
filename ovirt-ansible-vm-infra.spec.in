@@ -59,6 +59,10 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Fri Mar 8 2019 Ondra Machacek <omachace@redhat.com> - 1.1.13-1
+- Move the affinity group configuration further up the list.
+- Adding support for cpu_mode and placement_policy.
+
 * Wed Nov 21 2018 Ondra Machacek <omachace@redhat.com> - 1.1.12-1
 - Support ovirt.vm-infra name.
 - Require Ansible 2.7.2.
