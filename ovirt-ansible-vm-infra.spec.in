@@ -59,6 +59,9 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Tue Mar 12 2019 Ondra Machacek <omachace@redhat.com> - 1.1.14-1
+- Add boot_devices to config.
+
 * Fri Mar 8 2019 Ondra Machacek <omachace@redhat.com> - 1.1.13-1
 - Move the affinity group configuration further up the list.
 - Adding support for cpu_mode and placement_policy.
