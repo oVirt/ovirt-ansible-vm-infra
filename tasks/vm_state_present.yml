@@ -17,7 +17,7 @@
 - name: Manage disks
   ovirt_disk:
     auth: "{{ ovirt_auth }}"
-    name: "{{ item.1.name }}"
+    name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
     vm_name: "{{ item.0.name }}"
     size: "{{ item.1.size | default(omit) }}"
     format: "{{ item.1.format | default(omit) }}"

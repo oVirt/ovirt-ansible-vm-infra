@@ -120,6 +120,7 @@ The item in `disks` list of `profile` dictionary can contain following attribute
 | name               | UNDEF          | The name of the additional disk.  |
 | storage_domain     | UNDEF          | The name of storage domain where disk should be created. |
 | interface          | UNDEF          | The interface of the disk. |
+| name_prefix		 | True           | When you dont want use default prefix of diks or if you need to edit disk created from template. |
 | format             | UNDEF          | Specify format of the disk.  <ul><li>cow - If set, the disk will by created as sparse disk, so space will be allocated for the volume as needed. This format is also known as thin provisioned disks</li><li>raw - If set, disk space will be allocated right away. This format is also known as preallocated disks.</li></ul> |
 | bootable           | UNDEF          | True if the disk should be bootable. |
 
