@@ -59,6 +59,10 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Wed May 15 2019 Ondra Machacek <omachace@redhat.com> - 1.1.15-1
+- Add resize template disk feature.
+- Add serial policy parameters.
+
 * Tue Mar 12 2019 Ondra Machacek <omachace@redhat.com> - 1.1.14-1
 - Add boot_devices to config.
 
