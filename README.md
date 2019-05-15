@@ -116,7 +116,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | boot_devices       | UNDEF                 | List of boot devices which should be used to boot. Valid entries are `cdrom`, `hd`, `network`. |
 | serial_console     | UNDEF                 | True enable VirtIO serial console, False to disable it. By default is chosen by oVirt/RHV engine. |
 | serial_policy      | UNDEF                 | Specify a serial number policy for the Virtual Machine. Following options are supported. <br/><i>vm</i> - Sets the Virtual Machine's UUID as its serial number. <br/><i>host</i> - Sets the host's UUID as the Virtual Machine's serial number. <br/><i>custom</i> - Allows you to specify a custom serial number in serial_policy_value. |
-| serial_policy_value | UNDEF                 | Allows you to specify a custom serial number. This parameter is used only when serial_policy is custom. |
+| serial_policy_value | UNDEF                 | Allows you to specify a custom serial number. This parameter is used only when <i>serial_policy</i> is custom. |
 
 The item in `disks` list of `profile` dictionary can contain following attributes:
 
