@@ -1,8 +1,8 @@
 #!/bin/bash
 
-VERSION="1.1.15"
-MILESTONE=
-RPM_RELEASE="1"
+VERSION="1.1.16"
+MILESTONE=master
+RPM_RELEASE="0.1.$MILESTONE.$(date -u +%Y%m%d%H%M%S)"
 
 ROLE_NAME="ovirt.vm-infra"
 PACKAGE_NAME="ovirt-ansible-vm-infra"
