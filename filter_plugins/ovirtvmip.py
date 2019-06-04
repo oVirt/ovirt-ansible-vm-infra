@@ -30,13 +30,17 @@ class FilterModule(object):
         'Return list of IPs'
         return self._parse_ips(ovirt_vms, attr=attr)
 
-    def ovirtvmipv4(self, ovirt_vms, attr=None):
+    def ovirtvmipv4(self, ovirt_vms, attr=None, network_ip=None):
         'Return first IPv4 IP'
-        return self.__get_first_ip(self.ovirtvmipsv4(ovirt_vms, attr))
+        return self.__get_first_ip(self.ovirtvmipsv4(ovirt_vms, attr, network_ip))
 
-    def ovirtvmipsv4(self, ovirt_vms, attr=None):
+    def ovirtvmipsv4(self, ovirt_vms, attr=None, network_ip=None):
         'Return list of IPv4 IPs'
-        return self._parse_ips(ovirt_vms, lambda version: version == 'v4', attr)
+        ips = self._parse_ips(ovirt_vms, lambda version: version == 'v4', attr)
+        if network_ip is not None:
+            resp = [ip for ip in ips if self.__address_in_network(ip,network_ip)]
+            return resp
+        return ips
 
     def ovirtvmipv6(self, ovirt_vms, attr=None):
         'Return first IPv6 IP'
@@ -80,3 +84,12 @@ class FilterModule(object):
     @staticmethod
     def __get_first_ip(res):
         return res[0] if isinstance(res, list) and res else res
+
+    def __address_in_network(self, ip, net):
+        "Return boolean if ip is in network."
+        import socket,struct
+        ipaddr = int(''.join([ '%02x' % int(x) for x in ip.split('.') ]), 16)
+        netstr, bits = net.split('/')
+        netaddr = int(''.join([ '%02x' % int(x) for x in netstr.split('.') ]), 16)
+        mask = (0xffffffff << (32 - int(bits))) & 0xffffffff
+        return (ipaddr & mask) == (netaddr & mask)

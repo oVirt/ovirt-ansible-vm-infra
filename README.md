@@ -65,6 +65,7 @@ Role Variables
 | affinity_groups                | UNDEF         | List of dictionaries with affinity groups specifications.   |
 | wait_for_ip                    | false         | If true, the playbook should wait for the virtual machine IP reported by the guest agent.  |
 | wait_for_ip_version            | v4            | Specify which IP version should be wait for. Either v4 or v6.  |
+| wait_for_ip_range              | 0.0.0.0/0     | Specify from which network should IP be. Works only for IPv4.   |
 | debug_vm_create                | false         | If true, logs the tasks of the virtual machine being created. The log can contain passwords. |
 | vm_infra_create_single_timeout | 180           | Time in seconds to wait for VM to be created and started (if state is running). |
 | vm_infra_create_poll_interval  | 15            | Polling interval. Time in seconds to wait between check of state of VM.  |

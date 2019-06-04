@@ -12,7 +12,7 @@
   no_log: false
   add_host:
     name: "{{ item.name }}"
-    ansible_host: "{{ item | ovirtvmipv4 }}"
+    ansible_host: "{{ item | ovirtvmipv4(network_ip=wait_for_ip_range) }}"
     groups: "{{ (['ovirt_tag_'] * item.tags | length) | zip(item.tags | map(attribute='name') | list) | map('join') | list + ['ovirt_vm'] }}"
     ansible_user: root
     ansible_password: "{{ vms_passwords | filtervalue('name', item.name) | map(attribute='root_password') | first | default(omit) }}"
