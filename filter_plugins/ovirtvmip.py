@@ -37,10 +37,8 @@ class FilterModule(object):
     def ovirtvmipsv4(self, ovirt_vms, attr=None, network_ip=None):
         'Return list of IPv4 IPs'
         ips = self._parse_ips(ovirt_vms, lambda version: version == 'v4', attr)
-        if network_ip is not None:
-            resp = [ip for ip in ips if self.__address_in_network(ip,network_ip)]
-            return resp
-        return ips
+        resp = [ip for ip in ips if self.__address_in_network(ip, network_ip)]
+        return resp
 
     def ovirtvmipv6(self, ovirt_vms, attr=None):
         'Return first IPv6 IP'
@@ -86,7 +84,7 @@ class FilterModule(object):
         return res[0] if isinstance(res, list) and res else res
 
     def __address_in_network(self, ip, net):
-        "Return boolean if ip is in network."
+        "Return boolean if IP is in network."
         import socket,struct
         ipaddr = int(''.join([ '%02x' % int(x) for x in ip.split('.') ]), 16)
         netstr, bits = net.split('/')
