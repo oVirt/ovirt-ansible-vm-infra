@@ -27,6 +27,7 @@
     storage_domain: "{{ item.1.storage_domain | default(omit) }}"
     interface: "{{ item.1.interface | default(omit) }}"
     bootable: "{{ item.1.bootable | default(omit) }}"
+    activate: "{{ item.1.activate | default(omit) }}"
     wait: true
   with_subelements:
     - "{{ create_vms }}"
