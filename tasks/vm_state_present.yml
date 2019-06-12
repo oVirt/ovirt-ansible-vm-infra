@@ -66,7 +66,7 @@
 
 - name: Manage VMs state
   include_tasks: manage_state.yml
-  with_items: "{{ create_vms }}"
+  with_items: "{{ create_lite_vms }}"
   loop_control:
     loop_var: "current_vm"
 

@@ -9,7 +9,7 @@
       - name
 
 - name: Create inventory of VMs IPv4
-  no_log: false
+  no_log: true
   add_host:
     name: "{{ item.name }}"
     ansible_host: "{{ item | ovirtvmipv4(network_ip=wait_for_ip_range) }}"
@@ -24,7 +24,7 @@
     label: "{{ item.name }}"
 
 - name: Create inventory of VMs IPv6
-  no_log: false
+  no_log: true
   add_host:
     name: "{{ item.name }}"
     ansible_host: "{{ item | ovirtvmipv6 }}"

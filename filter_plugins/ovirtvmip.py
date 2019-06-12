@@ -100,16 +100,15 @@ class FilterModule(object):
                 value[key_to_remove] = "******"
             if key_to_remove in value['profile']:
                 value['profile'][key_to_remove] = "******"
-
-            if value.get('cloud_init') and key_to_remove in value['cloud_init']:
+            if 'cloud_init' in value and key_to_remove in value['cloud_init']:
                 value['cloud_init'][key_to_remove] = "******"
-            if value['profile'].get('cloud_init') and key_to_remove in value['profile']['cloud_init']:
+            if 'cloud_init' in value['profile'] and key_to_remove in value['profile']['cloud_init']:
                 value['profile']['cloud_init'][key_to_remove] = "******"
-
-            if value.get('sysprep') and key_to_remove in value['sysprep']:
-                value['sysprep'][key_to_remove] = "******"
-            if value['profile'].get('sysprep') and key_to_remove in value['profile']['sysprep']:
-                value['profile']['sysprep'][key_to_remove] = "******"
+            #Add with sysprep integration to ovirt vm infra
+            #if 'sysprep' in value and key_to_remove in value['sysprep']:
+            #    value['sysprep'][key_to_remove] = "******"
+            #if 'sysprep' in value['profile'] and key_to_remove in value['profile']['sysprep']:
+            #    value['profile']['sysprep'][key_to_remove] = "******"
 
         return data
 
