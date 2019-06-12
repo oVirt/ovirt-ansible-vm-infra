@@ -22,11 +22,11 @@ class FilterModule(object):
                 items.append(item)
         return items
 
-    def ovirtvmip(self, ovirt_vms, attr=None):
+    def ovirtvmip(self, ovirt_vms, attr=None, network_ip=None):
         'Return first IP'
         return self.__get_first_ip(self.ovirtvmips(ovirt_vms, attr))
 
-    def ovirtvmips(self, ovirt_vms, attr=None):
+    def ovirtvmips(self, ovirt_vms, attr=None, network_ip=None):
         'Return list of IPs'
         return self._parse_ips(ovirt_vms, attr=attr)
 
