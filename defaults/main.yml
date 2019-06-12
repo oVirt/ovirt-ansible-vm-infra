@@ -2,6 +2,7 @@
 debug_vm_create: false
 wait_for_ip: false
 wait_for_ip_version: v4
+wait_for_ip_range: "0.0.0.0/0"
 
 # Create VMs timeouts:
 vm_infra_create_single_timeout: 180
