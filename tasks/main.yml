@@ -1,11 +1,7 @@
 ---
-- name: Check if VMs are correct
-  fail:
-    msg: "'vms' variable does not contain mandatory parameter '{{ item[1] }}'"
-  when: item[1] not in item[0]
-  with_nested:
-    - "{{ vms }}"
-    - ['name', 'profile']
+- name: Check mandatory params
+  set_fact:
+    log_vms: "{{ vms | removesensitive }}"  
 
 - block:
   - name: Login to oVirt
