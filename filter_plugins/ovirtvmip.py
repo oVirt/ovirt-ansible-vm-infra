@@ -40,11 +40,11 @@ class FilterModule(object):
         resp = [ip for ip in ips if self.__address_in_network(ip, network_ip)]
         return resp
 
-    def ovirtvmipv6(self, ovirt_vms, attr=None):
+    def ovirtvmipv6(self, ovirt_vms, attr=None, network_ip=None):
         'Return first IPv6 IP'
         return self.__get_first_ip(self.ovirtvmipsv6(ovirt_vms, attr))
 
-    def ovirtvmipsv6(self, ovirt_vms, attr=None):
+    def ovirtvmipsv6(self, ovirt_vms, attr=None, network_ip=None):
         'Return list of IPv6 IPs'
         return self._parse_ips(ovirt_vms, lambda version: version == 'v6', attr)
 
@@ -85,9 +85,9 @@ class FilterModule(object):
 
     def __address_in_network(self, ip, net):
         "Return boolean if IP is in network."
-        import socket,struct
-        ipaddr = int(''.join([ '%02x' % int(x) for x in ip.split('.') ]), 16)
+        import socket, struct
+        ipaddr = int(''.join(['%02x' % int(x) for x in ip.split('.')]), 16)
         netstr, bits = net.split('/')
-        netaddr = int(''.join([ '%02x' % int(x) for x in netstr.split('.') ]), 16)
+        netaddr = int(''.join(['%02x' % int(x) for x in netstr.split('.')]), 16)
         mask = (0xffffffff << (32 - int(bits))) & 0xffffffff
         return (ipaddr & mask) == (netaddr & mask)
