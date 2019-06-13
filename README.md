@@ -125,6 +125,7 @@ The item in `disks` list of `profile` dictionary can contain following attribute
 |--------------------|----------------|----------------------------------------------|
 | size               | UNDEF          | The size of the additional disk. |
 | name               | UNDEF          | The name of the additional disk.  |
+| id               | UNDEF          | The id of the disk which you want to update. Also used for renaming of disk.  |
 | storage_domain     | UNDEF          | The name of storage domain where disk should be created. |
 | interface          | UNDEF          | The interface of the disk. |
 | name_prefix        | True           | If true the name of the vm will be used as prefix of disk name. If false only the name of disk will be used as disk name - could be useful when creating vm from template with custom disk size. |
