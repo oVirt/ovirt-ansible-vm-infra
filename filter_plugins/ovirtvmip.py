@@ -85,9 +85,11 @@ class FilterModule(object):
 
     def __address_in_network(self, ip, net):
         "Return boolean if IP is in network."
-        import socket, struct
-        ipaddr = int(''.join(['%02x' % int(x) for x in ip.split('.')]), 16)
-        netstr, bits = net.split('/')
-        netaddr = int(''.join(['%02x' % int(x) for x in netstr.split('.')]), 16)
-        mask = (0xffffffff << (32 - int(bits))) & 0xffffffff
-        return (ipaddr & mask) == (netaddr & mask)
+        if net:
+            import socket, struct
+            ipaddr = int(''.join(['%02x' % int(x) for x in ip.split('.')]), 16)
+            netstr, bits = net.split('/')
+            netaddr = int(''.join(['%02x' % int(x) for x in netstr.split('.')]), 16)
+            mask = (0xffffffff << (32 - int(bits))) & 0xffffffff
+            return (ipaddr & mask) == (netaddr & mask)
+        return True
