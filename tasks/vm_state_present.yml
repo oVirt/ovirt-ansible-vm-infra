@@ -18,7 +18,7 @@
   import_tasks: affinity_groups.yml
 
 - name: Manage disks
-  ovirt_disk:
+  ovirt_disk282:
     auth: "{{ ovirt_auth }}"
     name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
     vm_name: "{{ item.0.name }}"
@@ -27,6 +27,7 @@
     storage_domain: "{{ item.1.storage_domain | default(omit) }}"
     interface: "{{ item.1.interface | default(omit) }}"
     bootable: "{{ item.1.bootable | default(omit) }}"
+    activate: "{{ item.1.activate | default(omit) }}"
     wait: true
   with_subelements:
     - "{{ create_vms }}"
