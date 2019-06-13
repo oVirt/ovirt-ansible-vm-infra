@@ -12,6 +12,8 @@ class FilterModule(object):
             'ovirtvmipv6': self.ovirtvmipv6,
             'ovirtvmipsv6': self.ovirtvmipsv6,
             'filtervalue': self.filtervalue,
+            'removesensitive': self.removesensitive,
+            'check_mandatory_params': self.check_mandatory_params,
         }
 
     def filtervalue(self, data, attr, value):
@@ -91,3 +93,31 @@ class FilterModule(object):
         netaddr = int(''.join(['%02x' % int(x) for x in netstr.split('.')]), 16)
         mask = (0xffffffff << (32 - int(bits))) & 0xffffffff
         return (ipaddr & mask) == (netaddr & mask)
+
+    def removesensitive(self, data, key_to_remove='root_password'):
+        for value in data:
+            if key_to_remove in value:
+                value[key_to_remove] = "******"
+            if key_to_remove in value['profile']:
+                value['profile'][key_to_remove] = "******"
+            if 'cloud_init' in value and key_to_remove in value['cloud_init']:
+                value['cloud_init'][key_to_remove] = "******"
+            if 'cloud_init' in value['profile'] and key_to_remove in value['profile']['cloud_init']:
+                value['profile']['cloud_init'][key_to_remove] = "******"
+            #Add with sysprep integration to ovirt vm infra
+            #if 'sysprep' in value and key_to_remove in value['sysprep']:
+            #    value['sysprep'][key_to_remove] = "******"
+            #if 'sysprep' in value['profile'] and key_to_remove in value['profile']['sysprep']:
+            #    value['profile']['sysprep'][key_to_remove] = "******"
+
+        return data
+
+    def check_mandatory_params(self, data):
+        for value in data:
+            if 'profile' not in value:
+                raise ValueError(
+                    "'vms' variable does not contain mandatory parameter '%s'" % (
+                        value.get('name'),
+                    )
+                )
+        return data
