@@ -125,11 +125,13 @@ The item in `disks` list of `profile` dictionary can contain following attribute
 |--------------------|----------------|----------------------------------------------|
 | size               | UNDEF          | The size of the additional disk. |
 | name               | UNDEF          | The name of the additional disk.  |
+| id               | UNDEF          | Id of the disk. If you pass id of the disk and name the disk will be looked up by id and will update name of the disk if it differs from the name passed in name parameter. |
 | storage_domain     | UNDEF          | The name of storage domain where disk should be created. |
 | interface          | UNDEF          | The interface of the disk. |
 | name_prefix        | True           | If true the name of the vm will be used as prefix of disk name. If false only the name of disk will be used as disk name - could be useful when creating vm from template with custom disk size. |
 | format             | UNDEF          | Specify format of the disk.  <ul><li>cow - If set, the disk will by created as sparse disk, so space will be allocated for the volume as needed. This format is also known as thin provisioned disks</li><li>raw - If set, disk space will be allocated right away. This format is also known as preallocated disks.</li></ul> |
 | bootable           | UNDEF          | True if the disk should be bootable. |
+| activate           | UNDEF          | True if the disk should be activated |
 
 The item in `nics` list of `profile` dictionary can contain following attributes:
 
