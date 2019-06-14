@@ -59,6 +59,11 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Fri Jun 14 2019 Ondra Machacek <omachace@redhat.com> - 1.1.16-1
+- Support disk rename.
+- Support disk activation.
+- Support waiting for IP range.
+
 * Wed May 15 2019 Ondra Machacek <omachace@redhat.com> - 1.1.15-1
 - Add resize template disk feature.
 - Add serial policy parameters.
