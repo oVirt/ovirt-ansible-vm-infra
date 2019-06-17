@@ -18,7 +18,7 @@
   import_tasks: affinity_groups.yml
 
 - name: Manage disks
-  ovirt_disk282:
+  ovirt_disk29:
     auth: "{{ ovirt_auth }}"
     name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
     vm_name: "{{ item.0.name }}"
