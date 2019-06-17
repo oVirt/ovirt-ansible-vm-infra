@@ -402,7 +402,7 @@ def transfer(connection, module, direction, transfer_func):
             raise Exception(
                 "Error occurred while uploading image. The transfer is in %s" % transfer.phase
             )
-        if module.params.get('logical_unit'):
+        if not module.params.get('logical_unit'):
             disks_service = connection.system_service().disks_service()
             wait(
                 service=disks_service.service(module.params['id']),
@@ -696,27 +696,34 @@ def main():
             service=disks_service,
         )
 
+        force_create = False
+        vm_service = get_vm_service(connection, module)
         if lun:
             disk = _search_by_lun(disks_service, lun.get('id'))
+        else:
+            disk = disks_module.search_entity(search_params=searchable_attributes(module))
+            if vm_service and disk:
+                # If the VM don't exist in VMs disks, but still it's found it means it was found
+                # for template with same name as VM, so we should force create the VM disk.
+                force_create = disk.id not in [a.disk.id for a in vm_service.disk_attachments_service().list() if a.disk]
 
         ret = None
         # First take care of creating the VM, if needed:
         if state in ('present', 'detached', 'attached'):
-            vm_service = get_vm_service(connection, module)
             # Always activate disk when its being created
             if vm_service is not None and disk is None:
                 module.params['activate'] = True
             ret = disks_module.create(
-                entity=disk,
-                search_params=searchable_attributes(module),
+                entity=disk if not force_create else None,
                 result_state=otypes.DiskStatus.OK if lun is None else None,
                 fail_condition=lambda d: d.status == otypes.DiskStatus.ILLEGAL if lun is None else False,
+                force_create=force_create,
             )
             is_new_disk = ret['changed']
             ret['changed'] = ret['changed'] or disks_module.update_storage_domains(ret['id'])
             # We need to pass ID to the module, so in case we want detach/attach disk
             # we have this ID specified to attach/detach method:
-            module.params['id'] = ret['id'] if disk is None else disk.id
+            module.params['id'] = ret['id']
 
             # Upload disk image in case it's new disk or force parameter is passed:
             if module.params['upload_image_path'] and (is_new_disk or module.params['force']):
@@ -758,8 +765,8 @@ def main():
             ret = disks_module.remove()
 
         # If VM was passed attach/detach disks to/from the VM:
-        if module.params.get('vm_id') is not None or module.params.get('vm_name') is not None and state != 'absent':
-            disk_attachments_service = get_vm_service(connection, module).disk_attachments_service()
+        if vm_service:
+            disk_attachments_service = vm_service.disk_attachments_service()
             disk_attachments_module = DiskAttachmentsModule(
                 connection=connection,
                 module=module,
