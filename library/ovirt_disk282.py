@@ -759,19 +759,7 @@ def main():
 
         # If VM was passed attach/detach disks to/from the VM:
         if module.params.get('vm_id') is not None or module.params.get('vm_name') is not None and state != 'absent':
-            vms_service = connection.system_service().vms_service()
-
-            # If `vm_id` isn't specified, find VM by name:
-            vm_id = module.params['vm_id']
-            if vm_id is None:
-                vm_id = getattr(search_by_name(vms_service, module.params['vm_name']), 'id', None)
-
-            if vm_id is None:
-                module.fail_json(
-                    msg="VM don't exists, please create it first."
-                )
-
-            disk_attachments_service = vms_service.vm_service(vm_id).disk_attachments_service()
+            disk_attachments_service = get_vm_service(connection, module).disk_attachments_service()
             disk_attachments_module = DiskAttachmentsModule(
                 connection=connection,
                 module=module,
