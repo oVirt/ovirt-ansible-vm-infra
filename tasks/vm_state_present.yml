@@ -22,7 +22,7 @@
     auth: "{{ ovirt_auth }}"
     name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
     vm_name: "{{ item.0.name }}"
-    id: "{{ item.1.id }}"
+    id: "{{ item.1.id | default(omit) }}"
     size: "{{ item.1.size | default(omit) }}"
     format: "{{ item.1.format | default(omit) }}"
     storage_domain: "{{ item.1.storage_domain | default(omit) }}"
