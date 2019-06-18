@@ -29,7 +29,7 @@
 
   - name: Split list of lite VMs
     set_fact:
-      create_lite_vms: "{{ create_vms | default([]) + [item]}}"
+      create_lite_vms: "{{ create_lite_vms | default([]) + [item]}}"
     with_items: "{{ lite_vms }}"
     no_log: True
     when: (item.state is undefined and item.profile.state is defined and item.profile.state != 'absent') or (item.state is defined and item.state != 'absent') or (item.state is undefined and item.profile.state is undefined)
