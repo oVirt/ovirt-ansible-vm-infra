@@ -59,6 +59,9 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Mon Jun 17 2019 Ondra Machacek <omachace@redhat.com> - 1.1.17-1
+- Don't require to specify disk ID.
+
 * Fri Jun 14 2019 Ondra Machacek <omachace@redhat.com> - 1.1.16-1
 - Support disk rename.
 - Support disk activation.
