@@ -1,7 +1,7 @@
 ---
-- name: Set lite vms
+- name: Set sensitive vms
   set_fact:
-    lite_vms: "{{ vms }}"
+    sensitive_vms: "{{ vms }}"
   no_log: true
 
 - name: Check if VMs are correct
@@ -27,10 +27,10 @@
     when: (item.state is undefined and item.profile.state is defined and item.profile.state != 'absent') or (item.state is defined and item.state != 'absent') or (item.state is undefined and item.profile.state is undefined)
     # Uses item state first if not defined it will check profile state and use it.
 
-  - name: Split list of lite VMs
+  - name: Split list of sensitive VMs
     set_fact:
-      create_lite_vms: "{{ create_vms | default([]) + [item]}}"
-    with_items: "{{ lite_vms }}"
+      create_sensitive_vms: "{{ create_sensitive_vms | default([]) + [item]}}"
+    with_items: "{{ sensitive_vms }}"
     no_log: True
     when: (item.state is undefined and item.profile.state is defined and item.profile.state != 'absent') or (item.state is defined and item.state != 'absent') or (item.state is undefined and item.profile.state is undefined)
     # Uses item state first if not defined it will check profile state and use it.
