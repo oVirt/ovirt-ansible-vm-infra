@@ -59,6 +59,9 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Tue Jun 18 2019 Ondra Machacek <omachace@redhat.com> - 1.1.18-1
+- Fix cloud init.
+
 * Mon Jun 17 2019 Ondra Machacek <omachace@redhat.com> - 1.1.17-1
 - Don't require to specify disk ID.
 
