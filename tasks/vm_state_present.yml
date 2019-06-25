@@ -17,7 +17,7 @@
 - name: Apply any Affinity Groups
   import_tasks: affinity_groups.yml
 
-- name: Manage disks
+- name: Manage profile disks
   ovirt_disk29:
     auth: "{{ ovirt_auth }}"
     name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
@@ -33,6 +33,25 @@
   with_subelements:
     - "{{ create_vms }}"
     - "profile.disks"
+    - flags:
+      skip_missing: true
+
+- name: Manage virtual machines disks
+  ovirt_disk29:
+    auth: "{{ ovirt_auth }}"
+    name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
+    vm_name: "{{ item.0.name }}"
+    id: "{{ item.1.id | default(omit) }}"
+    size: "{{ item.1.size | default(omit) }}"
+    format: "{{ item.1.format | default(omit) }}"
+    storage_domain: "{{ item.1.storage_domain | default(omit) }}"
+    interface: "{{ item.1.interface | default(omit) }}"
+    bootable: "{{ item.1.bootable | default(omit) }}"
+    activate: "{{ item.1.activate | default(omit) }}"
+    wait: true
+  with_subelements:
+    - "{{ create_vms }}"
+    - "disks"
     - flags:
       skip_missing: true
 
