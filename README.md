@@ -92,7 +92,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | memory             | UNDEF                 | Amount of virtual machine memory.               |
 | memory_max         | UNDEF                 | Upper bound of virtual machine memory up to which memory hot-plug can be performed. |
 | memory_guaranteed  | UNDEF                 | Amount of minimal guaranteed memory of the Virtual Machine. Prefix uses IEC 60027-2 standard (for example 1GiB, 1024MiB). <i>memory_guaranteed</i> parameter can't be lower than <i>memory</i> parameter. |
-| cores              | 1                     | Number of CPU cores used by the the virtual machine.          |
+| cores              | UNDEF                 | Number of CPU cores used by the the virtual machine.          |
 | sockets            | UNDEF                 | Number of virtual CPUs sockets of the Virtual Machine.  |
 | cpu_shares         | UNDEF                 | Set a CPU shares for this Virtual Machine. |
 | cpu_threads        | UNDEF                 | Set a CPU threads for this Virtual Machine. |
