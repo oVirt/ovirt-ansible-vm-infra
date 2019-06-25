@@ -100,11 +100,11 @@ class FilterModule(object):
         for value in data:
             if key_to_remove in value:
                 value[key_to_remove] = "******"
-            if key_to_remove in value['profile']:
+            if 'profile' in value and key_to_remove in value['profile']:
                 value['profile'][key_to_remove] = "******"
             if 'cloud_init' in value and key_to_remove in value['cloud_init']:
                 value['cloud_init'][key_to_remove] = "******"
-            if 'cloud_init' in value['profile'] and key_to_remove in value['profile']['cloud_init']:
+            if  'profile' in value and 'cloud_init' in value['profile'] and key_to_remove in value['profile']['cloud_init']:
                 value['profile']['cloud_init'][key_to_remove] = "******"
             #Add with sysprep integration to ovirt vm infra
             #if 'sysprep' in value and key_to_remove in value['sysprep']:
