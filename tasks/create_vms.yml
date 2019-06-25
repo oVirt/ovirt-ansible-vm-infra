@@ -13,7 +13,7 @@
     memory_guaranteed: "{{ current_vm.memory_guaranteed | default(current_vm.profile.memory_guaranteed) | default(omit) }}"
     cpu_cores: "{{ current_vm.cores | default(current_vm.profile.cores) | default(omit) }}"
     cpu_sockets: "{{ current_vm.sockets | default(current_vm.profile.sockets) | default(omit) }}"
-    cpu_shares: "{{ current_vm.cpu_shares | default(current_vm.profile.cpu_cores) | default(omit) }}"
+    cpu_shares: "{{ current_vm.cpu_shares | default(current_vm.profile.cpu_shares) | default(omit) }}"
     cpu_threads: "{{ current_vm.cpu_threads | default(current_vm.profile.cpu_threads) | default(omit) }}"
     cpu_mode: "{{ current_vm.cpu_mode | default(current_vm.profile.cpu_mode) | default(omit) }}"
     boot_devices: "{{ current_vm.boot_devices | default(current_vm.profile.boot_devices) | default(omit) }}"
