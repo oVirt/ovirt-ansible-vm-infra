@@ -113,13 +113,3 @@ class FilterModule(object):
             #    value['profile']['sysprep'][key_to_remove] = "******"
 
         return data
-
-    def check_mandatory_params(self, data):
-        for value in data:
-            if 'profile' not in value:
-                raise ValueError(
-                    "'vms' variable does not contain mandatory parameter '%s'" % (
-                        value.get('name'),
-                    )
-                )
-        return data
