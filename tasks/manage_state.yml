@@ -8,6 +8,7 @@
 
   - set_fact:
       cloud_init: "{{ cloud_init | combine({'user_name': cloud_init.user_name | default('root') }) }}"
+    when: current_vm.cloud_init is defined or current_vm.profile.cloud_init is defined
 
   - set_fact:
       cloud_init: "{{ cloud_init | combine({'authorized_ssh_keys': current_vm.ssh_key | default(current_vm.profile.ssh_key)}) }}"
@@ -26,6 +27,32 @@
       vms_passwords: "{{ vms_passwords + [{'name': current_vm.name, 'root_password': cloud_init.root_password}] }}"
     when: "'root_password' in cloud_init"
   no_log: true
+
+########################################################################
+# Legacy modification of sysprep:
+########################################################################
+
+- block:
+  - set_fact:
+      sysprep: "{{ current_vm.sysprep | default(current_vm.profile.sysprep) | default({}) }}"
+
+  - set_fact:
+      sysprep: "{{ sysprep | combine({'user_name': sysprep.user_name | default('Administrator') }) }}"
+    when: current_vm.sysprep is defined or current_vm.profile.sysprep is defined
+
+  - set_fact:
+      sysprep: "{{ sysprep | combine({'root_password': current_vm.root_password | default(current_vm.profile.root_password)}) }}"
+    when: current_vm.profile.root_password is defined or current_vm.root_password is defined
+
+  - set_fact:
+      sysprep: "{{ sysprep | combine({'host_name': current_vm.name~'.'~current_vm.domain | default(current_vm.profile.domain)}) }}"
+    when: current_vm.profile.domain is defined or current_vm.domain is defined
+
+  - name: Define vm/password dictionary
+    set_fact:
+      vms_passwords: "{{ vms_passwords + [{'name': current_vm.name, 'root_password': sysprep.root_password}] }}"
+    when: "'root_password' in sysprep"
+  no_log: true
 ########################################################################
 ########################################################################
 
@@ -34,6 +61,7 @@
     auth: "{{ ovirt_auth }}"
     state: "{{ current_vm.state | default(current_vm.profile.state) | default('present') }}"
     name: "{{ current_vm.name }}"
+    sysprep: "{{ sysprep | default(omit) }}"
     cloud_init: "{{ (cloud_init | length > 0) | ternary(cloud_init, omit) }}"
     cloud_init_persist: "{{ current_vm.cloud_init_persist | default(current_vm.profile.cloud_init_persist) | default(omit) }}"
     cloud_init_nics: "{{ current_vm.cloud_init_nics | default(current_vm.profile.cloud_init_nics)  | default(omit) }}"
