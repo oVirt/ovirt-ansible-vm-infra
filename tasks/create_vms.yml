@@ -26,6 +26,7 @@
     high_availability_priority: "{{ current_vm.high_availability_priority | default(current_vm.profile.high_availability_priority) | default(omit) }}"
     io_threads: "{{ current_vm.io_threads  | default(current_vm.profile.io_threads ) | default(omit) }}"
     storage_domain: "{{ current_vm.storage_domain | default(current_vm.profile.storage_domain) | default(omit) }}"
+    disk_format: "{{ current_vm.disk_format | default(current_vm.profile.disk_format) | default(omit) }}"
     lease: "{{ current_vm.lease | default(current_vm.profile.lease) | default(omit) }}"
     serial_console : "{{ current_vm.serial_console | default(current_vm.profile.serial_console) | default(omit) }}"
     serial_policy : "{{ current_vm.serial_policy | default(current_vm.profile.serial_policy) | default(omit) }}"
