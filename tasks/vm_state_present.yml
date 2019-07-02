@@ -30,6 +30,7 @@
     bootable: "{{ item.1.bootable | default(omit) }}"
     activate: "{{ item.1.activate | default(omit) }}"
     wait: true
+  # When there is no profile disks it will use vms disks
   with_subelements:
     - "{{ create_vms }}"
     - "profile.disks"
@@ -49,7 +50,7 @@
     bootable: "{{ item.1.bootable | default(omit) }}"
     activate: "{{ item.1.activate | default(omit) }}"
     wait: true
-  # When there is no profile with disks it will be used
+  # When there is profile with disks, vms disks will update them
   when: item.0.profile is defined and item.0.profile.disks is defined
   with_subelements:
     - "{{ create_vms }}"
@@ -66,6 +67,7 @@
     mac_address: "{{ item.1.mac_address | default(omit) }}"
     profile: "{{ item.1.profile | default(omit) }}"
     network: "{{ item.1.network | default(omit) }}"
+  # When there is no profile NICs it will use vms disks
   with_subelements:
     - "{{ create_vms }}"
     - "profile.nics"
@@ -81,7 +83,7 @@
     mac_address: "{{ item.1.mac_address | default(omit) }}"
     profile: "{{ item.1.profile | default(omit) }}"
     network: "{{ item.1.network | default(omit) }}"
-  # When there is no profile with nics it will be used
+  # When there is profile with nics, vms nics will update them
   when: item.0.profile is defined and item.0.profile.nics is defined
   with_subelements:
     - "{{ create_vms }}"
