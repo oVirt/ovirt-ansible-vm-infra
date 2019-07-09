@@ -59,6 +59,12 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Tue Jul 9 2019 Ondra Machacek <omachace@redhat.com> - 1.1.19-1
+- Profile is not mandatory for vms variable.
+- Support sysprep for windows vms.
+- Allow set format of the disk.
+- Fix running in multiple plays.
+
 * Tue Jun 18 2019 Ondra Machacek <omachace@redhat.com> - 1.1.18-1
 - Fix cloud init.
 
