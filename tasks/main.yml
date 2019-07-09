@@ -49,8 +49,8 @@
   always:
     - name: Unset facts
       set_fact:
-          create_vms:
-          create_sensitive_vms:
+          create_vms: []
+          create_sensitive_vms: []
 
     - name: Logout from oVirt
       ovirt_auth:
