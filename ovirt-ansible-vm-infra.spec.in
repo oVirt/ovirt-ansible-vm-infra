@@ -59,6 +59,9 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Thu Jul 11 2019 Ondra Machacek <omachace@redhat.com> - 1.1.20-1
+- Rename filter name to avoid collion with other oVirt roles.
+
 * Tue Jul 9 2019 Ondra Machacek <omachace@redhat.com> - 1.1.19-1
 - Profile is not mandatory for vms variable.
 - Support sysprep for windows vms.
