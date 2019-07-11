@@ -12,7 +12,7 @@ class FilterModule(object):
             'ovirtvmipv6': self.ovirtvmipv6,
             'ovirtvmipsv6': self.ovirtvmipsv6,
             'filtervalue': self.filtervalue,
-            'removesensitive': self.removesensitive,
+            'removesensitivevmdata': self.removesensitivevmdata,
         }
 
     def filtervalue(self, data, attr, value):
@@ -95,7 +95,7 @@ class FilterModule(object):
             return (ipaddr & mask) == (netaddr & mask)
         return True
 
-    def removesensitive(self, data, key_to_remove='root_password'):
+    def removesensitivevmdata(self, data, key_to_remove='root_password'):
         for value in data:
             if key_to_remove in value:
                 value[key_to_remove] = "******"
