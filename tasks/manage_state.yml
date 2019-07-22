@@ -61,7 +61,7 @@
     auth: "{{ ovirt_auth }}"
     state: "{{ current_vm.state | default(current_vm.profile.state) | default('present') }}"
     name: "{{ current_vm.name }}"
-    sysprep: "{{ sysprep | default(omit) }}"
+    sysprep: "{{ (sysprep | length > 0) | ternary(sysprep, omit) }}"
     cloud_init: "{{ (cloud_init | length > 0) | ternary(cloud_init, omit) }}"
     cloud_init_persist: "{{ current_vm.cloud_init_persist | default(current_vm.profile.cloud_init_persist) | default(omit) }}"
     cloud_init_nics: "{{ current_vm.cloud_init_nics | default(current_vm.profile.cloud_init_nics)  | default(omit) }}"
