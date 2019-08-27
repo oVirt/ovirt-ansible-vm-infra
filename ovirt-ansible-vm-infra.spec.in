@@ -59,6 +59,10 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Tue Aug 27 2019 Ondra Machacek <omachace@redhat.com> - 1.1.21-1
+- Fix sysprep support.
+- Allow setting the memory balooning for a VM.
+
 * Thu Jul 11 2019 Ondra Machacek <omachace@redhat.com> - 1.1.20-1
 - Rename filter name to avoid collion with other oVirt roles.
 
