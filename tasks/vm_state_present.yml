@@ -17,6 +17,9 @@
 - name: Apply any Affinity Groups
   import_tasks: affinity_groups.yml
 
+- name: Apply any Affinity Labels
+  import_tasks: affinity_labels.yml
+
 - name: Manage profile disks
   ovirt_disk29:
     auth: "{{ ovirt_auth }}"

@@ -159,6 +159,16 @@ The `affinity_groups` list can contain following attributes:
 | vms                | UNDEF               |  List of VM's to be assigned to this affinity group. |
 | wait               | true                |  If true, the module will wait for the desired state. |
 
+The `affinity_labels` list can contain following attributes:
+
+| Name               | Default value       |                                              |
+|--------------------|---------------------|----------------------------------------------|
+| cluster            | UNDEF (Required)    |  Name of the cluster of the affinity label group.  |
+| hosts              | UNDEF               |  List of host names assigned to this label.  |
+| name               | UNDEF (Required)    |  Name of affinity label.                     |
+| state              | UNDEF               |  Whether label should be present or absent.  |
+| vms                | UNDEF               |  List of VM's to be assigned to this affinity label. |
+
 The `cloud_init` dictionary can contain following attributes:
 
 | Name                | Description                                          |
