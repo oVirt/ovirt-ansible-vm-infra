@@ -4,7 +4,12 @@
 ########################################################################
 - block:
   - set_fact:
+      cloud_init: "{{ current_vm.profile.cloud_init | default({}) | combine(current_vm.cloud_init | default({}) ) }}"
+    when: current_vm.merge_with_profile is defined and current_vm.merge_with_profile == True
+
+  - set_fact:
       cloud_init: "{{ current_vm.cloud_init | default(current_vm.profile.cloud_init) | default({}) }}"
+    when: current_vm.merge_with_profile is not defined or current_vm.merge_with_profile == False
 
   - block:
     - set_fact:
@@ -35,7 +40,12 @@
 
 - block:
   - set_fact:
+      sysprep: "{{ current_vm.profile.sysprep | default({}) | combine(current_vm.sysprep | default({}) ) }}"
+    when: current_vm.merge_with_profile is defined and current_vm.merge_with_profile == True
+
+  - set_fact:
       sysprep: "{{ current_vm.sysprep | default(current_vm.profile.sysprep) | default({}) }}"
+    when: current_vm.merge_with_profile is not defined or current_vm.merge_with_profile == False
 
   - block:
     - set_fact:
@@ -55,6 +65,7 @@
       when: "'root_password' in sysprep"
     when: current_vm.sysprep is defined or current_vm.profile.sysprep is defined
   no_log: true
+
 ########################################################################
 ########################################################################
 
