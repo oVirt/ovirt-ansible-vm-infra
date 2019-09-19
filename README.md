@@ -82,6 +82,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | tag                | UNDEF                 | Name of the tag to assign to the virtual machine. Only administrator users can use this attribute.  |
 | cloud_init         | UNDEF                 | Dictionary with values for Unix-like Virtual Machine initialization using cloud init. See below <i>cloud_init</i> section for more detailed description. |
 | cloud_init_nics    | UNDEF                 | List of dictionaries representing network interafaces to be setup by cloud init. See below <i>cloud_init_nics</i> section for more detailed description. |
+| sysprep            | UNDEF                 | Dictionary with values for Windows Virtual Machine initialization using sysprep. See below <i>sysprep</i> section for more detailed description. |
 | profile            | UNDEF                 | Dictionary specifying the virtual machine hardware. See the table below.  |
 | state              | present               | Should the Virtual Machine be stopped, present or running. Takes precedence before state value in profile. |
 | nics               | UNDEF                 | List of dictionaries specifying the NICs of the virtual machine. See below for more detailed description.   |
@@ -109,9 +110,9 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | storage_domain     | UNDEF                 | Name of the storage domain where all virtual machine disks should be created. Considered only when template is provided.|
 | state              | present               | Should the Virtual Machine be stopped, present or running.|
 | ssh_key            | UNDEF                 | SSH key to be deployed to the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>authorized_ssh_keys</i> in <i>cloud_init</i> dictionary. |
-| domain             | UNDEF                 | The domain of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>host_name</i> in <i>cloud_init</i> dictionary.|
+| domain             | UNDEF                 | The domain of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>host_name</i> in <i>cloud_init</i> or <i>sysprep</i> dictionary.|
 | lease              | UNDEF                 | Name of the storage domain this virtual machine lease reside on. |
-| root_password      | UNDEF                 | The root password of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>root_password</i> in <i>cloud_init</i> dictionary.|
+| root_password      | UNDEF                 | The root password of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>root_password</i> in <i>cloud_init</i> or <i>sysprep</i> dictionary.|
 | cpu_mode           | UNDEF                 | CPU mode of the virtual machine. It can be some of the following: host_passthrough, host_model or custom. |
 | placement_policy   | UNDEF                 | The configuration of the virtual machine's placement policy. |
 | boot_devices       | UNDEF                 | List of boot devices which should be used to boot. Valid entries are `cdrom`, `hd`, `network`. |
@@ -188,6 +189,22 @@ The `cloud_init` dictionary can contain following attributes:
 | nic_gateway         | If boot protocol is static, set this gateway to network interface of Virtual Machine. |
 | nic_name            | Set name to network interface of Virtual Machine. |
 | nic_on_boot         | If True network interface will be set to start on boot. |
+
+The `sysprep` dictionary can contain following attributes:
+
+| Name                | Description                                          |
+|---------------------|------------------------------------------------------|
+| host_name           | Hostname to be set to Virtual Machine when deployed. |
+| active_directory_ou | Active Directory Organizational Unit, to be used for login of user. |
+| org_name            | Organization name to be set to Windows Virtual Machine. |
+| user_name           | Username to be used for set password to Windows Virtual Machine. |
+| root_password       | Password to be set for user specified by user_name parameter. By default it's set for root user. |
+| windows_license_key | License key to be set to Windows Virtual Machine. |
+| input_locale        | Input localization of the Windows Virtual Machine. |
+| system_locale       | System localization of the Windows Virtual Machine. |
+| ui_language         | UI language of the Windows Virtual Machine. |
+| domain              | Domain to be set to Windows Virtual Machine. |
+| timezone            | Timezone to be set to Windows Virtual Machine. |
 
 The `cloud_init_nics` List of dictionaries representing network interafaces to be setup by cloud init. This option is used, when user needs to setup more network interfaces via cloud init.
 If one network interface is enough, user should use cloud_init nic_* parameters. cloud_init nic_* parameters are merged with cloud_init_nics parameters. Dictionary can contain following values.
