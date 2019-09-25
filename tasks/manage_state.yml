@@ -21,12 +21,12 @@
     - set_fact:
         cloud_init: "{{ cloud_init | combine({'host_name': current_vm.name~'.'~current_vm.domain | default(current_vm.profile.domain)}) }}"
       when: current_vm.profile.domain is defined or current_vm.domain is defined
-    when: current_vm.cloud_init is defined or current_vm.profile.cloud_init is defined
 
-  - name: Define vm/password dictionary
-    set_fact:
-      vms_passwords: "{{ vms_passwords + [{'name': current_vm.name, 'root_password': cloud_init.root_password}] }}"
-    when: "'root_password' in cloud_init"
+    - name: Define vm/password dictionary
+      set_fact:
+        vms_passwords: "{{ vms_passwords + [{'name': current_vm.name, 'root_password': cloud_init.root_password}] }}"
+      when: "'root_password' in cloud_init"
+    when: current_vm.cloud_init is defined or current_vm.profile.cloud_init is defined
   no_log: true
 
 ########################################################################
@@ -48,12 +48,12 @@
     - set_fact:
         sysprep: "{{ sysprep | combine({'host_name': current_vm.name~'.'~current_vm.domain | default(current_vm.profile.domain)}) }}"
       when: current_vm.profile.domain is defined or current_vm.domain is defined
-    when: current_vm.sysprep is defined or current_vm.profile.sysprep is defined
 
-  - name: Define vm/password dictionary
-    set_fact:
-      vms_passwords: "{{ vms_passwords + [{'name': current_vm.name, 'root_password': sysprep.root_password}] }}"
-    when: "'root_password' in sysprep"
+    - name: Define vm/password dictionary
+      set_fact:
+        vms_passwords: "{{ vms_passwords + [{'name': current_vm.name, 'root_password': sysprep.root_password}] }}"
+      when: "'root_password' in sysprep"
+    when: current_vm.sysprep is defined or current_vm.profile.sysprep is defined
   no_log: true
 ########################################################################
 ########################################################################
