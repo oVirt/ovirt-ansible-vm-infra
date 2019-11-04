@@ -21,7 +21,7 @@
   import_tasks: affinity_labels.yml
 
 - name: Manage profile disks
-  ovirt_disk29:
+  ovirt_disk:
     auth: "{{ ovirt_auth }}"
     name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
     vm_name: "{{ item.0.name }}"
@@ -41,7 +41,7 @@
       skip_missing: true
 
 - name: Manage virtual machines disks
-  ovirt_disk29:
+  ovirt_disk:
     auth: "{{ ovirt_auth }}"
     name: "{% if item.1.name_prefix | default(true) %}{{ item.0.name }}_{% endif %}{{ item.1.name }}"
     vm_name: "{{ item.0.name }}"

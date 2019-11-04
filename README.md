@@ -48,8 +48,8 @@ So you can use any of this name. This documentation and examples in this reposit
 Requirements
 ------------
 
- * Ansible version 2.5 or higher
- * Python SDK version 4.2 or higher
+ * Ansible version 2.9 or higher
+ * Python SDK version 4.3 or higher
 
 Limitations
 -----------
