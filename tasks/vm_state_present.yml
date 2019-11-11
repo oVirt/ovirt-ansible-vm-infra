@@ -133,7 +133,7 @@
 
 - block:
     - set_fact:
-        ip_cond: "created_vms_info.ovirt_vms | ovirtvmip{{ wait_for_ip_version }}(network_ip='{{ wait_for_ip_range }}') | length > 0"
+        ip_cond: "vm_info.ovirt_vms | ovirtvmip{{ wait_for_ip_version }}(network_ip='{{ wait_for_ip_range }}') | length > 0"
 
     - name: Wait for VMs IP
       ovirt_vm_info:
@@ -145,6 +145,7 @@
         - "{{ create_vms }}"
       until: "ip_cond"
       retries: "{{ vm_infra_wait_for_ip_retries }}"
+      register: vm_info
       delay: "{{ vm_infra_wait_for_ip_delay }}"
       when: "(item.state is undefined and item.profile.state is defined and item.profile.state != 'stopped') and (item.state is defined and item.state != 'stopped') | default('present') != 'stopped'"
       # FIXME: Refactor the condition
