@@ -1,4 +1,4 @@
 distros:
   - el7
 release_branches:
-  master: [ "ovirt-4.3", "ovirt-4.2" ]
+  ovirt-ansible-vm-infra-1.1: [ "ovirt-4.3", "ovirt-4.2" ]
