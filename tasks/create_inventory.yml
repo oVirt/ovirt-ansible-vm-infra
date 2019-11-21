@@ -1,12 +1,13 @@
 ---
 - name: Fetch created VMs
-  ovirt_vm_facts:
+  ovirt_vm_info:
     auth: "{{ ovirt_auth }}"
     pattern: "name={{ vms | map(attribute='name') | join(' or name=') }}"
     fetch_nested: true
     nested_attributes:
       - ips
       - name
+  register: created_vms_info
 
 - name: Create inventory of VMs IPv4
   no_log: true
@@ -17,7 +18,7 @@
     ansible_user: root
     ansible_password: "{{ vms_passwords | filtervalue('name', item.name) | map(attribute='root_password') | first | default(omit) }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-  with_items: "{{ ovirt_vms }}"
+  with_items: "{{ created_vms_info.ovirt_vms }}"
   changed_when: false
   when: "wait_for_ip_version == 'v4'"
   loop_control:
@@ -32,7 +33,7 @@
     ansible_user: root
     ansible_password: "{{ vms_passwords | filtervalue('name', item.name) | map(attribute='root_password') | first | default(omit) }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-  with_items: "{{ ovirt_vms }}"
+  with_items: "{{ created_vms_info.ovirt_vms }}"
   changed_when: false
   when: "wait_for_ip_version == 'v6'"
   loop_control:
