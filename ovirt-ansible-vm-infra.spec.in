@@ -59,6 +59,11 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Wed Nov 13 2019 Ondra Machacek <omachace@redhat.com> - 1.1.22-1
+- Add option to configure Affinity labels.
+- Fix cloud-init initialization.
+- Add sysprep parameter.
+
 * Tue Aug 27 2019 Ondra Machacek <omachace@redhat.com> - 1.1.21-1
 - Fix sysprep support.
 - Allow setting the memory balooning for a VM.
