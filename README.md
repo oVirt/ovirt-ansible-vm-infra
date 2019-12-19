@@ -4,12 +4,12 @@ oVirt Virtual Machine Infrastructure
 The `ovirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
 This role also creates inventory of created virtual machines it defines if
 `wait_for_ip` is set to `true` and state of virtual machine is `running`.
-All defined virtual machine are part of `ovirt_vm` inventory group.
-Role also create `ovirt_tag_{tag_name}` groups if there are any
-tags assigned to the virtual machine and place all virtual machine with that tag
+All defined virtual machines are part of `ovirt_vm` inventory group.
+Role also creates `ovirt_tag_{tag_name}` groups if there are any
+tags assigned to a virtual machine and places all virtual machines with that tag
 to that inventory group.
 
-For example for following variable structure:
+Consider the following variable structure:
 
 ```yaml
 vms:
@@ -22,8 +22,8 @@ vms:
     profile: myprofile
 ```
 
-The role will create inventory groups `ovirt_vm` where will be both virtual
-machines `myvm1` and `myvm2`. The role also create inventory groups `ovirt_tag_mytag1`
+The role will create inventory group `ovirt_vm` with both of the virtual
+machines - `myvm1` and `myvm2`. The role also creates inventory group `ovirt_tag_mytag1`
 with virtual machine `myvm1` and inventory group `ovirt_tag_mytag2` with virtual
 machine `myvm2`.
 
@@ -38,11 +38,11 @@ $ ansible-galaxy install ovirt.vm-infra
 This will download the role to the directory with the same name as you specified on the
 command line, in this case `ovirt.vm-infra`. But note that it is case sensitive, so if you specify
 for example `OVIRT.vm-infra` it will download the same role, but it will add it to the directory named
-`OVIRT.vm-infra`, so you later always have to use this role with upper case prefix. So be careful how
-you specify the name of the role on command line.
+`OVIRT.vm-infra`. In such case, you'll have to reference this role with uppercase prefix in the future. Therefore be careful how
+you specify the role's name on the command line.
 
-For the RPM installation we install three legacy names `ovirt.vm-infra`, `oVirt.vm-infra` and `ovirt-vm-infra`.
-So you can use any of this name. This documentation and examples in this repository are using name `ovirt.vm-infra`.
+As for the RPM installation we support three legacy names - `ovirt.vm-infra`, `oVirt.vm-infra` and `ovirt-vm-infra`.
+You can use any of those names. This documentation and examples in this repository use the name `ovirt.vm-infra`.
 `oVirt.vm-infra` and `ovirt-vm-infra` role names are deprecated.
 
 Requirements
@@ -296,7 +296,7 @@ Example Playbook
     - ovirt.vm-infra
 ```
 
-The example below shows how to use inventory created by `ovirt.vm-infra` role in follow up play.
+The example below shows how to use inventory created by `ovirt.vm-infra` role in follow-up play.
 
 ```yaml
 ---
