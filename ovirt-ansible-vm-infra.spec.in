@@ -16,9 +16,9 @@ Url:            http://www.ovirt.org
 
 Requires: ansible >= 2.9.0
 %if 0%{?rhel} <= 7
-Requires:	python-jmespath
+Requires: python-jmespath
 %else
-Requires:	python3-jmespath
+Requires: python3-jmespath
 %endif
 
 %description
