@@ -113,6 +113,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | domain             | UNDEF                 | The domain of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>host_name</i> in <i>cloud_init</i> or <i>sysprep</i> dictionary.|
 | lease              | UNDEF                 | Name of the storage domain this virtual machine lease reside on. |
 | root_password      | UNDEF                 | The root password of the virtual machine. This is parameter is keep for backward compatibility and has precendece before <i>root_password</i> in <i>cloud_init</i> or <i>sysprep</i> dictionary.|
+| host               | UNDEF                 | If you need to set cpu_mode as host_passthrough, you need to use this param to define host to use along with placement_policy set to pinned. |
 | cpu_mode           | UNDEF                 | CPU mode of the virtual machine. It can be some of the following: host_passthrough, host_model or custom. |
 | placement_policy   | UNDEF                 | The configuration of the virtual machine's placement policy. |
 | boot_devices       | UNDEF                 | List of boot devices which should be used to boot. Valid entries are `cdrom`, `hd`, `network`. |
