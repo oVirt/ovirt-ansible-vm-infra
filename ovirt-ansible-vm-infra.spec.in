@@ -15,6 +15,11 @@ BuildArch:      noarch
 Url:            http://www.ovirt.org
 
 Requires: ansible >= 2.9.0
+%if 0%{?rhel} <= 7
+Requires: python-jmespath
+%else
+Requires: python3-jmespath
+%endif
 
 %description
 This Ansible role provide funtionality to create virtual machine infrastructure.
