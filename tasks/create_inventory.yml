@@ -9,6 +9,10 @@
       - name
   register: created_vms_info
 
+- name: Set ovirt_vms
+  set_fact:
+    ovirt_vms: "{{ created_vms_info.ovirt_vms }}"
+
 - name: Create inventory of VMs IPv4
   no_log: true
   add_host:
@@ -18,7 +22,7 @@
     ansible_user: root
     ansible_password: "{{ vms_passwords | filtervalue('name', item.name) | map(attribute='root_password') | first | default(omit) }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-  with_items: "{{ created_vms_info.ovirt_vms }}"
+  with_items: "{{ ovirt_vms }}"
   changed_when: false
   when: "wait_for_ip_version == 'v4'"
   loop_control:
@@ -33,7 +37,7 @@
     ansible_user: root
     ansible_password: "{{ vms_passwords | filtervalue('name', item.name) | map(attribute='root_password') | first | default(omit) }}"
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-  with_items: "{{ created_vms_info.ovirt_vms }}"
+  with_items: "{{ ovirt_vms }}"
   changed_when: false
   when: "wait_for_ip_version == 'v6'"
   loop_control:
