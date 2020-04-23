@@ -64,6 +64,9 @@ sh build.sh install
 %license LICENSE
 
 %changelog
+* Thu Apr 23 2020 Martin Necas <mnecas@redhat.com> - 1.2.3-1
+- Add set fact for ovirt_vms
+
 * Tue Apr 7 2020 Martin Necas <mnecas@redhat.com> - 1.2.2-1
 - Add jmespath to requirements
 - Add host vm parameter
