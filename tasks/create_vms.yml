@@ -34,6 +34,7 @@
     serial_policy : "{{ current_vm.serial_policy | default(current_vm.profile.serial_policy) | default(omit) }}"
     serial_policy_value : "{{ current_vm.serial_policy_value | default(current_vm.profile.serial_policy_value) | default(omit) }}"
     timeout: "{{ vm_infra_create_single_timeout }}"
+    comment: "{{ current_vm.comment | default(current_vm.profile.comment) | default(omit) }}"
   changed_when: false
   async: "{{ vm_infra_create_single_timeout }}"
   poll: 0
