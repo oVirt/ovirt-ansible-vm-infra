@@ -5,11 +5,11 @@
 - block:
   - set_fact:
       cloud_init: "{{ current_vm.profile.cloud_init | default({}) | combine(current_vm.cloud_init | default({}) ) }}"
-    when: current_vm.merge_with_profile is defined and current_vm.merge_with_profile == True
+    when: current_vm.merge_with_profile is defined and current_vm.merge_with_profile
 
   - set_fact:
       cloud_init: "{{ current_vm.cloud_init | default(current_vm.profile.cloud_init) | default({}) }}"
-    when: current_vm.merge_with_profile is not defined or current_vm.merge_with_profile == False
+    when: current_vm.merge_with_profile is not defined or not current_vm.merge_with_profile
 
   - block:
     - set_fact:
@@ -41,11 +41,11 @@
 - block:
   - set_fact:
       sysprep: "{{ current_vm.profile.sysprep | default({}) | combine(current_vm.sysprep | default({}) ) }}"
-    when: current_vm.merge_with_profile is defined and current_vm.merge_with_profile == True
+    when: current_vm.merge_with_profile is defined and current_vm.merge_with_profile
 
   - set_fact:
       sysprep: "{{ current_vm.sysprep | default(current_vm.profile.sysprep) | default({}) }}"
-    when: current_vm.merge_with_profile is not defined or current_vm.merge_with_profile == False
+    when: current_vm.merge_with_profile is not defined or not current_vm.merge_with_profile
 
   - block:
     - set_fact:

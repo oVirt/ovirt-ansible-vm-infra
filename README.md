@@ -123,7 +123,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | serial_policy      | UNDEF                 | Specify a serial number policy for the Virtual Machine. Following options are supported. <br/><i>vm</i> - Sets the Virtual Machine's UUID as its serial number. <br/><i>host</i> - Sets the host's UUID as the Virtual Machine's serial number. <br/><i>custom</i> - Allows you to specify a custom serial number in serial_policy_value. |
 | serial_policy_value | UNDEF                 | Allows you to specify a custom serial number. This parameter is used only when <i>serial_policy</i> is custom. |
 | comment | UNDEF                             | Comment of the virtual Machine. |
-| merge_with_profile | UNDEF,False           | Permit to merge vm level cloud_init and sysprep properties with profile level |
+| merge_with_profile | False                  | Permit to merge vm level cloud_init and sysprep properties with profile level |
 
 The item in `disks` list of `profile` dictionary can contain following attributes:
 
