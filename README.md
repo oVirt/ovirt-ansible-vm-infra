@@ -1,6 +1,8 @@
 oVirt Virtual Machine Infrastructure
 ====================================
 
+## THIS ROLE IS DEPRECATED (please go to https://github.com/ovirt/ovirt-ansible-collection)
+
 The `ovirt.vm-infra` role manages the virtual machine infrastructure in oVirt.
 This role also creates inventory of created virtual machines it defines if
 `wait_for_ip` is set to `true` and state of virtual machine is `running`.
