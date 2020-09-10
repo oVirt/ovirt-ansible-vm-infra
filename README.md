@@ -125,6 +125,7 @@ The `vms` and `profile` variables can contain following attributes, note that if
 | serial_policy      | UNDEF                 | Specify a serial number policy for the Virtual Machine. Following options are supported. <br/><i>vm</i> - Sets the Virtual Machine's UUID as its serial number. <br/><i>host</i> - Sets the host's UUID as the Virtual Machine's serial number. <br/><i>custom</i> - Allows you to specify a custom serial number in serial_policy_value. |
 | serial_policy_value | UNDEF                 | Allows you to specify a custom serial number. This parameter is used only when <i>serial_policy</i> is custom. |
 | comment | UNDEF                             | Comment of the virtual Machine. |
+| merge_with_profile | False                  | Permit to merge vm level cloud_init and sysprep properties with profile level |
 
 The item in `disks` list of `profile` dictionary can contain following attributes:
 
@@ -349,6 +350,61 @@ The example below shows how to use inventory created by `ovirt.vm-infra` role in
   roles:
     - geerlingguy.apache
 ```
+
+Example with merging profile field cloud_init (work same for sysprep field) :
+
+```yaml
+- name: Deploy apache VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    # Contains encrypted `engine_password` varibale using ansible-vault
+    - passwords.yml
+
+  vars:
+    wait_for_ip: true
+
+    httpd_vm:
+      cluster: production
+      state: running
+      domain: example.com
+      template: rhel7
+      memory: 2GiB
+      cloud_init:
+        user_name: "user-1"
+        dns_servers: "127.0.0.1"
+        root_password: "ThePassword"
+      cores: 2
+      disks:
+        - size: 10GiB
+          name: data
+          storage_domain: mynfsstorage
+          interface: virtio
+
+    vms:
+      - name: apache-vm
+        merge_with_profile: True
+        tag: apache
+        cloud_init:
+          host_name: "VM-1.example.com"
+        profile: "{{ httpd_vm }}"
+
+  roles:
+    - ovirt.vm-infra
+
+- name: Deploy apache on VM
+  hosts: ovirt_tag_apache
+
+  vars_files:
+    - apache_vars.yml
+
+  roles:
+    - geerlingguy.apache
+```
+
+Here `merge_with_profile: True` allow supporting cloud_init at two level in same time.
 
 [![asciicast](https://asciinema.org/a/111662.png)](https://asciinema.org/a/111662)
 

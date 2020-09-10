@@ -13,3 +13,5 @@ vm_infra_create_all_timeout: "{{ vm_infra_create_single_timeout * (vms | length)
 vm_infra_wait_for_ip_retries: 5
 vm_infra_wait_for_ip_delay: 5
 vms_passwords: []
+
+merge_with_profile: False
